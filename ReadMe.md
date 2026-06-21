@@ -113,6 +113,25 @@ No installation or server setup required.
 
 ---
 
+# 🖥️ Demo Flow
+Open index.html
+↓
+Login 
+↓
+Setup Account & Transfer Funds
+↓
+View Dashboard
+↓
+transactions (Add Income / Expenses)
+↓
+Create Budgets
+↓
+Analyze Reports
+↓
+Export Financial Data
+
+---
+
 # Learning Objectives
 
 This project demonstrates:
