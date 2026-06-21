@@ -47,10 +47,3 @@ Create Budgets <br>
 Analyze Reports <br>
 ↓ <br>
 Export Financial Data <br>
-
----
-
- #  Developer
-
-**Maria Zahid**  
-For Zynvex Solutions  
