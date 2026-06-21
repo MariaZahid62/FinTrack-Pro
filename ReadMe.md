@@ -124,7 +124,11 @@ This project demonstrates:
 - Real-world dashboard development
 - GitHub version control and deployment
 
-  #  Developer
+ #  Developer
 
 **Maria Zahid**  
 For Zynvex Solutions  
+
+Contact:
+www.linkedin.com/in/maria-zahid-056a87327
+mariazahid404@gmail.com
