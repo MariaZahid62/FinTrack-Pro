@@ -82,20 +82,20 @@ All user data is stored locally using browser LocalStorage.
 ---
 
 # Project Structure
-FinTrack-Pro/
-- │
-- ├── index.html
-- ├── dashboard.html
-- ├── transactions.html
-- ├── accounts.html
-- ├── budgets.html
-- ├── reports.html
-- │
-- ├── css/
-- │ └── style.css
-- │
-- ├── js/
-- └── script.js
+FinTrack-Pro/ <br>
+ │ <br>
+ ├── index.html <br>
+ ├── dashboard.html <br>
+ ├── transactions.html <br>
+ ├── accounts.html <br>
+ ├── budgets.html <br>
+ ├── reports.html <br>
+ │ <br>
+ ├── css/ <br>
+ │ └── style.css <br>
+ │ <br>
+ ├── js/ <br>
+ └── script.js <br>
 
 ---
 
@@ -113,41 +113,31 @@ No installation or server setup required.
 
 ---
 
-# 🖥️ Demo Flow
-Open index.html
-↓
-Login 
-↓
-Setup Account & Transfer Funds
-↓
-View Dashboard
-↓
-transactions (Add Income / Expenses)
-↓
-Create Budgets
-↓
-Analyze Reports
-↓
-Export Financial Data
+# Demo Flow
+
+Open index.html <br>
+↓ <br>
+Login <br>
+↓ <br>
+Setup Account & Transfer Funds <br>
+↓ <br>
+View Dashboard <br>
+↓ <br>
+transactions (Add Income / Expenses) <br>
+↓ <br>
+Create Budgets <br>
+↓ <br>
+Analyze Reports <br>
+↓ <br>
+Export Financial Data <br>
 
 ---
-
-# Learning Objectives
-
-This project demonstrates:
-
-- Frontend web development concepts
-- DOM manipulation using JavaScript
-- Client-side data management
-- Responsive UI design
-- Real-world dashboard development
-- GitHub version control and deployment
 
  #  Developer
 
 **Maria Zahid**  
 For Zynvex Solutions  
 
-Contact:
-www.linkedin.com/in/maria-zahid-056a87327
+Contact: <br>
+www.linkedin.com/in/maria-zahid-056a87327 <br>
 mariazahid404@gmail.com
