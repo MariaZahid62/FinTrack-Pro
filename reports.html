@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>FinTrack Pro - Reports</title>
+
+
+<style>
+
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+
+body{
+
+background:#f4f7fc;
+padding:30px;
+
+}
+
+
+
+.container{
+
+width:1100px;
+max-width:95%;
+margin:auto;
+background:white;
+border-radius:15px;
+overflow:hidden;
+box-shadow:0 5px 20px rgba(0,0,0,.1);
+
+}
+
+
+
+/* HEADER */
+
+
+.header{
+
+background:#1e3a8a;
+color:white;
+padding:30px;
+
+}
+
+
+.header h1{
+
+font-size:32px;
+
+}
+
+
+.header p{
+
+margin-top:10px;
+
+}
+
+
+
+
+/* NAVBAR */
+
+
+nav{
+
+background:#152c6b;
+padding:15px 30px;
+display:flex;
+gap:25px;
+
+}
+
+
+nav a{
+
+color:white;
+text-decoration:none;
+font-weight:bold;
+padding:10px 15px;
+border-radius:8px;
+
+}
+
+
+
+nav a:hover,
+nav a.active{
+
+background:white;
+color:#1e3a8a;
+
+}
+
+
+
+
+.section{
+
+padding:30px;
+
+}
+
+
+
+h2{
+
+color:#1e3a8a;
+margin-bottom:20px;
+
+}
+
+
+
+/* CARDS */
+
+
+.cards{
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+align-items:stretch;
+
+}
+
+
+
+.card{
+
+background:white;
+padding:20px;
+border-radius:12px;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+
+}
+
+
+
+.card h3{
+
+color:#666;
+
+}
+
+
+.card p{
+
+font-size:25px;
+font-weight:bold;
+color:#1e3a8a;
+margin-top:10px;
+
+}
+
+
+
+
+/* BUTTONS */
+
+
+button{
+
+padding:12px 20px;
+border:none;
+border-radius:8px;
+background:#1e3a8a;
+color:white;
+cursor:pointer;
+margin:10px 5px;
+
+}
+
+
+
+button:hover{
+
+background:#152c6b;
+
+}
+
+
+
+/* PROFILE */
+
+
+.profile-box label{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:10px;
+}
+
+.profile-box input[type="checkbox"]{
+    width:auto;
+}
+
+
+input,
+select{
+
+padding:12px;
+width:100%;
+margin:8px 0;
+border:1px solid #ccc;
+border-radius:8px;
+
+}
+
+
+
+/* TABLE */
+
+
+table{
+
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+
+}
+
+
+
+th{
+
+background:#1e3a8a;
+color:white;
+padding:12px;
+
+}
+
+
+
+td{
+
+padding:12px;
+text-align:center;
+border-bottom:1px solid #ddd;
+
+}
+
+
+
+
+.upload{
+
+margin-top:15px;
+
+}
+
+
+
+</style>
+
+
+</head>
+
+
+
+<body>
+
+
+
+<div class="container">
+
+
+
+<div class="header">
+
+<h1>FinTrack Pro</h1>
+
+<p>Reports & Data Management</p>
+
+
+</div>
+
+
+
+<nav>
+
+
+<a href="dashboard.html">
+Dashboard
+</a>
+
+
+<a href="transactions.html">
+Transactions
+</a>
+
+
+<a href="accounts.html">
+Accounts
+</a>
+
+
+<a href="budgets.html">
+Budgets
+</a>
+
+
+<a href="reports.html" class="active">
+Reports
+</a>
+
+
+</nav>
+
+
+
+
+
+
+<div class="section">
+
+
+
+<h2>
+Financial Overview
+</h2>
+
+
+
+<div class="cards">
+
+
+
+<div class="card">
+
+<h3>Total Income</h3>
+
+<p id="income">
+$0
+</p>
+
+</div>
+
+
+
+
+<div class="card">
+
+<h3>Total Expense</h3>
+
+<p id="expense">
+$0
+</p>
+
+</div>
+ 
+
+
+<div class="card">
+
+<h3>Balance</h3>
+
+<p id="balance">
+$0
+</p>
+
+</div>
+
+
+
+
+
+<div class="card">
+
+<h3>Total Transactions</h3>
+
+<p id="count">
+0
+</p>
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+<br>
+
+
+
+<h2>
+Export Financial Data
+</h2>
+
+
+
+<button onclick="exportTransactions()">
+
+Download Transaction History
+
+</button>
+<button onclick="backupData()">
+Backup User Data
+
+</button>
+
+
+<button onclick="exportReport()">
+
+Export Report JSON
+
+</button>
+
+<button onclick="exportExcel()">
+Export Excel
+</button>
+
+
+<h2>
+Import / Restore Data
+</h2>
+
+
+<input 
+type="file"
+id="fileInput"
+class="upload"
+accept=".json">
+
+
+
+<button onclick="importData()">
+
+Restore Saved Data
+
+</button>
+
+
+
+
+
+
+
+
+<h2>
+Transaction Report
+</h2>
+
+
+
+<table>
+
+
+<thead>
+
+
+<tr>
+
+<th>Date</th>
+
+<th>Category</th>
+
+<th>Type</th>
+
+<th>Amount</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+<tbody id="reportTable">
+
+
+</tbody>
+
+
+
+</table>
+
+
+
+
+
+
+
+
+
+<br><br>
+
+<h2 class="section-title">Financial Reports</h2>
+
+<div class="cards">
+
+<div class="card" style="grid-column:span 2;">
+<h3>Expense By Category</h3>
+<canvas id="expenseChart"></canvas>
+</div>
+
+<div class="card" style="grid-column:span 2;">
+<h3>Income vs Expense</h3>
+<canvas id="incomeExpenseChart"></canvas>
+</div>
+
+</div>
+
+<br><br>
+
+<h2>
+User Profile Settings
+</h2>
+
+<div class="profile-box">
+
+
+<input 
+id="username"
+placeholder="Full Name">
+
+
+
+<input 
+id="email"
+placeholder="Email">
+
+<input
+type="text"
+placeholder="Monthly Income Goal"
+id="incomeGoal">
+
+<input
+type="text"
+placeholder="Savings Goal"
+id="savingsGoal">
+
+<label>
+<input type="checkbox" id="budgetAlerts">
+ Enable Budget Alerts
+</label>
+
+<label>
+<input type="checkbox" id="expenseAlerts">
+ Expense Warnings
+</label>
+
+<label>
+<input type="checkbox" id="backupData">
+ Auto Backup Data
+</label>
+
+<button onclick="saveProfile()">
+
+Save Profile
+
+</button>
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script>
+
+
+
+let transactions =
+JSON.parse(localStorage.getItem("transactions")) || [];
+
+
+
+
+function loadReport(){
+
+
+let income=0;
+
+let expense=0;
+
+
+
+transactions.forEach(t=>{
+
+
+if(t.type=="Income"){
+
+income += Number(t.amount);
+
+}
+
+else{
+
+expense += Number(t.amount);
+
+}
+
+
+});
+
+
+
+document.getElementById("income").innerHTML =
+"$ " + income;
+
+
+
+document.getElementById("expense").innerHTML =
+"$ " + expense;
+
+
+
+document.getElementById("balance").innerHTML =
+"$ " + (income-expense);
+
+
+
+document.getElementById("count").innerHTML =
+transactions.length;
+
+
+
+let table =
+document.getElementById("reportTable");
+
+table.innerHTML="";
+
+
+
+transactions.forEach(t=>{
+
+
+table.innerHTML += `
+
+
+<tr>
+
+
+<td>${t.date}</td>
+
+<td>${t.category}</td>
+
+<td>${t.type}</td>
+
+<td>$ ${t.amount}</td>
+
+
+</tr>
+
+
+`;
+
+
+
+});
+
+
+
+}
+
+
+
+
+
+
+
+function exportTransactions(){
+
+
+let data =
+JSON.stringify(transactions,null,2);
+
+
+downloadFile(
+data,
+"transactions.json"
+);
+
+
+}
+
+
+
+
+
+
+function backupData(){
+
+
+
+let backup={
+
+
+transactions:
+JSON.parse(localStorage.getItem("transactions")) || [],
+
+
+accounts:
+JSON.parse(localStorage.getItem("accounts")) || [],
+
+
+budgets:
+JSON.parse(localStorage.getItem("budgets")) || [],
+
+
+profile:
+JSON.parse(localStorage.getItem("profile")) || {}
+
+
+
+};
+
+
+
+downloadFile(
+
+JSON.stringify(backup,null,2),
+
+"FinTrack_Backup.json"
+
+);
+
+
+
+}
+
+
+
+
+
+
+
+function exportReport(){
+
+
+
+let report={
+
+
+date:new Date(),
+
+
+transactions:transactions
+
+
+
+};
+
+
+
+downloadFile(
+
+JSON.stringify(report,null,2),
+
+"Financial_Report.json"
+
+);
+
+
+
+}
+
+
+
+
+
+
+function downloadFile(content,name){
+
+
+
+let blob =
+new Blob(
+[content],
+{type:"application/json"}
+);
+
+
+
+let link =
+document.createElement("a");
+
+
+
+link.href =
+URL.createObjectURL(blob);
+
+
+
+link.download=name;
+
+
+
+link.click();
+
+
+
+}
+
+
+
+
+
+
+
+function importData(){
+
+
+
+let file =
+document.getElementById("fileInput").files[0];
+
+
+
+if(!file){
+
+alert("Select backup file");
+
+return;
+
+}
+
+
+
+let reader =
+new FileReader();
+
+
+
+reader.onload=function(e){
+
+
+
+let data =
+JSON.parse(e.target.result);
+
+
+
+if(data.transactions){
+
+localStorage.setItem(
+"transactions",
+JSON.stringify(data.transactions)
+);
+
+}
+
+
+
+if(data.accounts){
+
+localStorage.setItem(
+"accounts",
+JSON.stringify(data.accounts)
+);
+
+}
+
+
+
+if(data.budgets){
+
+localStorage.setItem(
+"budgets",
+JSON.stringify(data.budgets)
+);
+
+}
+
+
+
+alert("Data Restored Successfully");
+
+
+};
+
+
+
+reader.readAsText(file);
+
+
+
+}
+
+
+
+
+
+
+
+function saveProfile(){
+
+
+
+let profile={
+
+
+name:
+document.getElementById("username").value,
+
+
+email:
+document.getElementById("email").value,
+
+
+
+};
+
+
+
+localStorage.setItem(
+"profile",
+JSON.stringify(profile)
+);
+
+alert("Profile Saved Successfully");
+
+setTimeout(() => {
+    location.reload();
+}, 500);
+
+
+
+}
+
+
+
+
+
+function loadProfile(){
+
+
+let profile =
+JSON.parse(localStorage.getItem("profile")) || {};
+
+
+
+document.getElementById("username").value =
+profile.name || "";
+
+
+
+document.getElementById("email").value =
+profile.email || "";
+
+
+
+}
+
+function loadExpenseChart(){
+
+let transactions =
+JSON.parse(localStorage.getItem("transactions")) || [];
+
+let categories = {};
+
+transactions.forEach(t=>{
+
+if(t.type=="Expense"){
+
+if(!categories[t.category]){
+categories[t.category]=0;
+}
+
+categories[t.category]+=Number(t.amount);
+
+}
+
+});
+
+new Chart(
+document.getElementById("expenseChart"),
+{
+type:"bar",
+
+data:{
+labels:Object.keys(categories),
+
+datasets:[{
+label:"Expenses",
+data:Object.values(categories)
+}]
+}
+});
+
+}
+
+function loadExpenseChart(){
+
+let transactions =
+JSON.parse(localStorage.getItem("transactions")) || [];
+
+let categories = {};
+
+transactions.forEach(t=>{
+
+    if(t.type === "Expense"){
+
+        if(!categories[t.category]){
+            categories[t.category] = 0;
+        }
+
+        categories[t.category] += Number(t.amount);
+
+    }
+
+});
+
+let labels = Object.keys(categories);
+let values = Object.values(categories);
+
+new Chart(
+document.getElementById("expenseChart"),
+{
+type:"bar",
+
+data:{
+labels:labels,
+
+datasets:[{
+label:"Expenses ($)",
+data:values,
+
+backgroundColor:[
+"#ef4444",
+"#f97316",
+"#eab308",
+"#22c55e",
+"#3b82f6",
+"#8b5cf6",
+"#ec4899",
+"#14b8a6"
+],
+
+borderRadius:8
+}]
+},
+
+options:{
+responsive:true,
+
+plugins:{
+legend:{
+display:false
+}
+},
+
+scales:{
+y:{
+beginAtZero:true
+}
+}
+}
+
+});
+
+}
+
+function exportExcel(){
+
+let transactions =
+JSON.parse(localStorage.getItem("transactions")) || [];
+
+let csv =
+"Title,Amount,Type,Category,Date\n";
+
+transactions.forEach(t=>{
+
+csv +=
+`${t.title},${t.amount},${t.type},${t.category},${t.date}\n`;
+
+});
+
+let blob =
+new Blob([csv],
+{type:"text/csv"});
+
+let a =
+document.createElement("a");
+
+a.href =
+URL.createObjectURL(blob);
+
+a.download =
+"FinTrack_Report.csv";
+
+a.click();
+
+}
+
+function loadIncomeExpenseChart(){
+
+    let transactions =
+    JSON.parse(localStorage.getItem("transactions")) || [];
+
+    let income = 0;
+    let expense = 0;
+
+    transactions.forEach(t => {
+
+        if(t.type == "Income")
+            income += Number(t.amount);
+        else
+            expense += Number(t.amount);
+
+    });
+
+    new Chart(
+    document.getElementById("incomeExpenseChart"),
+    {
+        type:"bar",
+
+        data:{
+            labels:["Income","Expense"],
+
+            datasets:[{
+                label:"Amount ($)",
+                data:[income, expense],
+
+                backgroundColor:[
+                    "#22c55e", // green
+                    "#ef4444"  // red
+                ],
+
+                borderColor:[
+                    "#16a34a",
+                    "#dc2626"
+                ],
+
+                borderWidth:1,
+                borderRadius:8
+            }]
+        },
+
+        options:{
+            responsive:true,
+
+            plugins:{
+                legend:{
+                    display:false
+                }
+            },
+
+            scales:{
+                y:{
+                    beginAtZero:true
+                }
+            }
+        }
+    });
+
+}
+
+
+loadReport();
+loadProfile();
+loadExpenseChart();
+loadIncomeExpenseChart();
+
+</script>
+
+
+
+</body>
+
+</html>

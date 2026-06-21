@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>FinTrack Pro - Bank Accounts</title>
+
+
+<style>
+
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+
+
+body{
+
+    background:#f4f7fc;
+    min-height:100vh;
+    padding:30px;
+
+}
+
+
+
+
+.container{
+
+    width:1100px;
+    max-width:95%;
+    margin:auto;
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 5px 20px rgba(0,0,0,0.1);
+
+}
+
+
+
+
+.header{
+
+    background:#1e3a8a;
+    color:white;
+    padding:30px;
+
+}
+
+
+
+.header h1{
+
+    font-size:32px;
+
+}
+
+
+.header p{
+
+    margin-top:10px;
+
+}
+
+
+
+
+
+
+.section{
+
+    padding:30px;
+
+}
+
+
+
+.section h2{
+
+    color:#333;
+    margin-bottom:20px;
+
+}
+
+
+
+
+/* FORM */
+
+
+.form-grid{
+
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+
+}
+
+
+
+input,select{
+
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    font-size:15px;
+
+}
+
+
+
+
+button{
+
+    padding:12px 20px;
+    border:none;
+    border-radius:8px;
+    background:#1e3a8a;
+    color:white;
+    cursor:pointer;
+    transition:.3s;
+
+}
+
+
+
+button:hover{
+
+    background:#152c6b;
+    transform:translateY(-2px);
+
+}
+
+
+
+.add-btn{
+
+    margin-top:20px;
+
+}
+
+
+
+
+
+
+/* ACCOUNT CARDS */
+
+
+.cards{
+
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+
+}
+
+
+
+.card{
+
+
+    background:#f8fafc;
+    border-radius:15px;
+    padding:25px;
+    box-shadow:0 3px 12px rgba(0,0,0,.1);
+    transition:.3s;
+
+
+}
+
+
+
+.card:hover{
+
+    transform:translateY(-8px);
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
+
+}
+
+
+
+.card h3{
+
+    color:#1e3a8a;
+
+}
+
+
+
+.balance{
+
+    font-size:25px;
+    font-weight:bold;
+    margin:15px 0;
+    color:#16a34a;
+
+}
+
+
+
+.type{
+
+    background:#e0e7ff;
+    padding:6px 12px;
+    border-radius:20px;
+    color:#1e3a8a;
+
+}
+
+
+
+
+.edit{
+
+    background:#2563eb;
+
+}
+
+
+
+.delete{
+
+    background:#dc2626;
+
+}
+
+
+
+.delete:hover{
+
+    background:#b91c1c;
+
+}
+
+
+
+
+/* TRANSFER */
+
+
+.transfer-box{
+
+    background:#f8fafc;
+    padding:25px;
+    border-radius:15px;
+
+}
+
+
+
+.transfer-grid{
+
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+
+}
+
+
+
+.transfer-btn{
+
+    margin-top:20px;
+
+}
+
+
+
+
+
+@media(max-width:800px){
+
+
+.form-grid,
+.cards,
+.transfer-grid{
+
+grid-template-columns:1fr;
+
+}
+
+
+}
+
+/* NAVBAR */
+
+nav{
+    background:#152c6b;
+    padding:15px 30px;
+    display:flex;
+    gap:25px;
+    align-items:center;
+    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    font-size:15px;
+    font-weight:600;
+    padding:10px 15px;
+    border-radius:8px;
+    transition:0.3s;
+}
+
+nav a:hover{
+    background:white;
+    color:#1e3a8a;
+    transform:translateY(-2px);
+}
+
+nav a.active{
+    background:white;
+    color:#1e3a8a;
+}
+
+</style>
+
+
+</head>
+
+
+
+<body>
+
+
+<div class="container">
+
+
+
+<div class="header">
+
+<h1>FinTrack Pro</h1>
+<p>Bank Accounts & Wallet Management</p>
+
+</div>
+
+<nav>
+
+<a href="dashboard.html">Dashboard</a>
+
+<a href="transactions.html">Transactions</a>
+
+<a href="accounts.html" class="active">Accounts</a>
+
+<a href="budgets.html">Budgets</a>
+
+<a href="reports.html">Reports</a>
+
+</nav>
+
+
+<!-- ADD ACCOUNT -->
+
+
+<div class="section">
+
+
+<h2>Add / Edit Account</h2>
+
+
+<div class="form-grid">
+
+
+<input id="accountName" placeholder="Account Name">
+
+
+<select id="accountType">
+
+
+<option>Savings Account</option>
+<option>Current Account</option>
+<option>Credit Card</option>
+<option>Cash Wallet</option>
+<option>Digital Wallet</option>
+
+
+</select>
+
+
+
+<input id="balance" type="number" placeholder="Initial Balance">
+
+
+</div>
+
+
+
+<button class="add-btn" onclick="saveAccount()">
+
+Add Account
+
+</button>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- ACCOUNT DISPLAY -->
+
+
+<div class="section">
+
+
+<h2>Your Accounts</h2>
+
+
+<br>
+
+
+<div class="cards" id="accountCards">
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- TRANSFER FUNDS -->
+
+
+<div class="section">
+
+
+<h2>Transfer Funds</h2>
+
+
+<div class="transfer-box">
+
+
+<div class="transfer-grid">
+
+
+<select id="fromAccount">
+
+</select>
+
+
+
+<select id="toAccount">
+
+</select>
+
+
+
+<input id="transferAmount" type="number" placeholder="Amount">
+
+
+</div>
+
+
+
+<button class="transfer-btn" onclick="transferFunds()">
+
+Transfer
+
+</button>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<script>
+
+
+let accounts =
+JSON.parse(localStorage.getItem("accounts")) || [
+{
+    name:"Savings Account",
+    type:"Savings Account",
+    balance:5200
+},
+{
+    name:"Current Account",
+    type:"Current Account",
+    balance:1850
+},
+{
+    name:"Cash Wallet",
+    type:"Cash Wallet",
+    balance:350
+}
+];
+
+
+let editIndex=-1;
+
+
+
+
+
+
+function saveAccount(){
+
+if(accountName.value.trim()=="" || balance.value==""){
+
+    alert("Please fill all fields");
+
+    return;
+
+}
+    let newAccount={
+
+        name:accountName.value,
+        type:accountType.value,
+        balance:Number(balance.value)
+
+    };
+
+    if(editIndex==-1){
+
+        accounts.push(newAccount);
+
+    }
+    else{
+
+        accounts[editIndex]=newAccount;
+        editIndex=-1;
+
+    }
+
+    localStorage.setItem(
+        "accounts",
+        JSON.stringify(accounts)
+    );
+
+    accountName.value="";
+    balance.value="";
+
+    displayAccounts();
+
+}
+
+function displayAccounts(){
+
+
+
+let cards=document.getElementById("accountCards");
+
+
+cards.innerHTML="";
+
+
+
+fromAccount.innerHTML="";
+toAccount.innerHTML="";
+
+
+
+
+accounts.forEach((acc,index)=>{
+
+
+
+cards.innerHTML += `
+
+
+<div class="card">
+
+
+<h3>${acc.name}</h3>
+
+
+<p class="type">
+
+${acc.type}
+
+</p>
+
+
+
+<div class="balance">
+
+$${acc.balance}
+
+</div>
+
+
+
+<button class="edit" onclick="editAccount(${index})">
+
+Edit
+
+</button>
+
+
+
+<button class="delete" onclick="deleteAccount(${index})">
+
+Delete
+
+</button>
+
+
+</div>
+
+
+`;
+
+
+
+
+fromAccount.innerHTML+=`
+
+<option value="${index}">
+${acc.name}
+</option>
+
+`;
+
+
+toAccount.innerHTML+=`
+
+<option value="${index}">
+${acc.name}
+</option>
+
+`;
+
+
+
+});
+
+
+
+}
+
+
+
+
+
+
+
+
+
+function editAccount(i){
+
+
+let acc=accounts[i];
+
+
+accountName.value=acc.name;
+
+accountType.value=acc.type;
+
+balance.value=acc.balance;
+
+
+editIndex=i;
+
+
+window.scrollTo(0,0);
+
+
+}
+
+function deleteAccount(i){
+
+    if(confirm("Delete account?")){
+
+        accounts.splice(i,1);
+
+        localStorage.setItem(
+            "accounts",
+            JSON.stringify(accounts)
+        );
+
+        displayAccounts();
+
+    }
+
+}
+
+
+function transferFunds(){
+
+    let from=fromAccount.value;
+
+    let to=toAccount.value;
+
+    let amount=Number(transferAmount.value);
+
+if(amount <= 0){
+
+    alert("Enter a valid amount");
+
+    return;
+
+}
+
+    if(from==to){
+
+        alert("Choose different accounts");
+
+        return;
+
+    }
+
+    if(accounts[from].balance < amount){
+
+        alert("Insufficient balance");
+
+        return;
+
+    }
+
+    // Update balances
+    accounts[from].balance -= amount;
+
+    accounts[to].balance += amount;
+
+    // Save updated accounts
+    localStorage.setItem(
+        "accounts",
+        JSON.stringify(accounts)
+    );
+
+    // Add transfer transaction
+    let transactions =
+    JSON.parse(localStorage.getItem("transactions")) || [];
+
+    transactions.push({
+
+title:`Transfer: ${accounts[from].name} → ${accounts[to].name}`,
+
+amount:amount,
+
+type:"Transfer",
+
+category:"Account Transfer",
+
+date:new Date().toISOString().split("T")[0],
+
+account:to
+
+});
+
+    // Save transactions
+    localStorage.setItem(
+        "transactions",
+        JSON.stringify(transactions)
+    );
+alert("Transfer Successful");
+
+transferAmount.value="";
+
+displayAccounts();
+
+}
+
+
+
+displayAccounts();
+
+
+</script>
+
+
+</body>
+
+</html>
