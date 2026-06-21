@@ -52,6 +52,7 @@ All user data is stored locally using browser LocalStorage.
 - Visual representation of financial data
 - Income vs expense analysis
 - Spending insights
+- Export/Import Reports
 
 ### Data Persistence
 - Uses LocalStorage for saving user data
@@ -123,7 +124,7 @@ Setup Account & Transfer Funds <br>
 ↓ <br>
 View Dashboard <br>
 ↓ <br>
-transactions (Add Income / Expenses) <br>
+Enter Transactions (Add Income / Expenses) <br>
 ↓ <br>
 Create Budgets <br>
 ↓ <br>
