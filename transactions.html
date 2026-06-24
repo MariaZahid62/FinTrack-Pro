@@ -14,91 +14,84 @@
 
 
 body{
-    background:#f4f7fc;
+    background:#0f172a;
     min-height:100vh;
-    padding:30px;
+    margin:0;
+    padding:0;
+    color:#e2e8f0;
 }
 
 
 .container{
-
-    width:1100px;
-    max-width:95%;
-    margin:auto;
-    background:white;
-    border-radius:15px;
-    overflow:hidden;
-    box-shadow:0 5px 20px rgba(0,0,0,0.1);
-
+    width:100%;
+    min-height:100vh;
+    background:#111827;
 }
 
 
 .header{
-
-    background:#1e3a8a;
+    background:linear-gradient(
+        135deg,
+        #0f172a,
+        #1e293b
+    );
     color:white;
-    padding:30px;
-
+    padding:35px;
+    border-bottom:1px solid rgba(255,255,255,0.05);
 }
-
 
 .header h1{
-
-    font-size:32px;
-
+    font-size:38px;
+    font-weight:700;
 }
 
-
 .header p{
-
     margin-top:10px;
-    opacity:.9;
-
+    color:#94a3b8;
 }
 
 /* NAVBAR */
 
+/* NAVIGATION */
+
 nav{
-    background:#152c6b;
-    padding:15px 30px;
-    display:flex;
-    gap:25px;
-    align-items:center;
+background:#0b1220;
+padding:18px 50px;
+display:flex;
+gap:20px;
+align-items:center;
+border-bottom:1px solid rgba(255,255,255,0.05);
 }
 
 nav a{
-    color:white;
-    text-decoration:none;
-    font-weight:600;
-    padding:10px 15px;
-    border-radius:8px;
-    transition:.3s;
+color:#94a3b8;
+text-decoration:none;
+font-size:15px;
+font-weight:600;
+padding:12px 18px;
+border-radius:12px;
+transition:.3s;
 }
 
 nav a:hover{
-    background:white;
-    color:#1e3a8a;
+background:#1e293b;
+color:white;
 }
 
 nav a.active{
-    background:white;
-    color:#1e3a8a;
+background:#1e293b;
+color:white;
 }
 
 /* FORM */
 
 .form-section{
-
     padding:30px;
-
 }
 
-
 .form-section h2{
-
-    color:#333;
+    color:white;
     margin-bottom:20px;
-
 }
 
 /* DASHBOARD */
@@ -110,17 +103,15 @@ nav a.active{
 }
 
 .card{
-    padding:20px;
-    border-radius:12px;
+    padding:24px;
+    border-radius:18px;
     color:white;
     transition:.3s;
     cursor:pointer;
-    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+    border:1px solid rgba(255,255,255,0.08);
+    box-shadow:none;
 }
 
-.card:hover{
-    transform:translateY(-6px) scale(1.02);
-}
 
 /* COLORS */
 .income-card{ background:linear-gradient(135deg,#16a34a,#22c55e); }
@@ -128,14 +119,14 @@ nav a.active{
 .balance-card{ background:linear-gradient(135deg,#1e3a8a,#3b82f6); }
 
 .card h3{
-    font-size:16px;
+    font-size:15px;
     opacity:.9;
 }
 
 .card p{
-    font-size:28px;
+    font-size:32px;
     margin-top:10px;
-    font-weight:bold;
+    font-weight:700;
 }
 
 /* CHART CONTAINER */
@@ -148,10 +139,10 @@ nav a.active{
 canvas{
     max-width:320px;
     max-height:320px;
-    background:white;
+    background:#1e293b;
     padding:15px;
-    border-radius:12px;
-    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,0.05);
 }
 
 .inputs{
@@ -162,37 +153,36 @@ canvas{
 
 }
 
-
-
-input,select{
-
-    padding:12px;
-    border:1px solid #ccc;
-    border-radius:8px;
+input,
+select{
+    padding:14px;
+    border:1px solid #334155;
+    border-radius:12px;
     font-size:15px;
+    background:#1e293b;
+    color:white;
+}
 
+input::placeholder{
+    color:#94a3b8;
 }
 
 
 
 button{
-
-    padding:12px;
+    padding:13px;
     border:none;
-    border-radius:8px;
-    background:#1e3a8a;
+    border-radius:12px;
+    background:#2563eb;
     color:white;
     cursor:pointer;
     transition:.3s;
-
+    font-weight:600;
 }
 
-
 button:hover{
-
-    background:#152c6b;
+    background:#1d4ed8;
     transform:translateY(-2px);
-
 }
 
 .transfer{
@@ -215,11 +205,9 @@ button:hover{
 
 
 .filter-box{
-
     padding:0 30px 25px;
     display:flex;
     gap:15px;
-
 }
 
 
@@ -235,9 +223,7 @@ button:hover{
 
 
 .table-section{
-
     padding:30px;
-
 }
 
 
@@ -251,38 +237,26 @@ table{
 
 
 th{
-
-    background:#1e3a8a;
-    color:white;
+    background:#1e293b;
+    color:#60a5fa;
     padding:14px;
-
 }
 
-
 td{
-
-    padding:13px;
+    padding:14px;
     text-align:center;
-    border-bottom:1px solid #ddd;
-
+    border-bottom:1px solid rgba(255,255,255,0.05);
+    color:#e2e8f0;
 }
 
 
 tr{
-
     transition:.3s;
-
 }
-
-
 
 tr:hover{
-
-    background:#eef3ff;
-    transform:scale(1.01);
-
+    background:#1e293b;
 }
-
 
 
 /* COLOR CODING */
@@ -306,13 +280,11 @@ tr:hover{
 
 
 .category{
-
-    background:#e0e7ff;
-    padding:6px 10px;
-    border-radius:15px;
-    color:#1e3a8a;
+    background:#1e40af;
+    padding:6px 12px;
+    border-radius:20px;
+    color:white;
     font-size:13px;
-
 }
 
 
