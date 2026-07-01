@@ -415,6 +415,44 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
 .dark .stat-icon.success { background: rgba(52, 211, 153, 0.1); color: #34d399; }
 .dark .stat-icon.danger { background: rgba(248, 113, 113, 0.1); color: #f87171; }
 .dark .stat-icon.warning { background: rgba(251, 191, 36, 0.1); color: #fbbf24; }
+
+/* ===== PROFILE AVATAR ===== */
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+.profile-avatar:hover {
+    border-color: var(--accent);
+    transform: scale(1.05);
+}
+
+/* ===== PROFILE SECTIONS ===== */
+.profile-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+.profile-section:hover {
+    box-shadow: 0 4px 20px -4px rgba(0,0,0,0.3);
+}
+
+/* ===== PREFERENCE ITEMS ===== */
+.pref-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+.pref-item:last-child {
+    border-bottom: none;
+}
 </style>
 </head>
 <body class="min-h-screen antialiased">
@@ -494,6 +532,9 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
             <button onclick="navigateTo('reports')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all" data-page="reports">
                 <i class="fa-solid fa-file-invoice-dollar w-5 text-center"></i>Reports
             </button>
+            <button onclick="navigateTo('profile')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all" data-page="profile">
+                <i class="fa-solid fa-user w-5 text-center"></i>Profile
+            </button>
         </nav>
         <div class="p-4 border-t" style="border-color: var(--border-color);">
             <div class="flex items-center justify-between px-4 py-3 mb-2">
@@ -526,10 +567,10 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
                 </button>
                 <div class="flex items-center gap-3 pl-4" style="border-left: 1px solid var(--border-color);">
                     <div class="text-right hidden sm:block">
-                        <p class="text-sm font-semibold leading-tight" style="color: var(--text-primary);">Alex Morgan</p>
+                        <p id="header-user-name" class="text-sm font-semibold leading-tight" style="color: var(--text-primary);">Alex Morgan</p>
                         <p class="text-xs" style="color: var(--text-muted);">Premium</p>
                     </div>
-                    <img src="https://ui-avatars.com/api/?name=Alex+Morgan&background=0ea5e9&color=fff&size=128" alt="Profile" class="w-9 h-9 rounded-xl border-2" style="border-color: var(--border-color);">
+                    <img id="header-avatar" src="https://ui-avatars.com/api/?name=Alex+Morgan&background=0ea5e9&color=fff&size=128" alt="Profile" class="w-9 h-9 rounded-xl border-2" style="border-color: var(--border-color);">
                 </div>
             </div>
         </header>
@@ -760,7 +801,7 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
                             <div class="flex justify-between items-end">
                                 <div>
                                     <p class="text-white/60 text-xs font-medium mb-1">Account Holder</p>
-                                    <p class="font-semibold tracking-wider text-sm">ALEX MORGAN</p>
+                                    <p id="card-holder-name" class="font-semibold tracking-wider text-sm">ALEX MORGAN</p>
                                 </div>
                                 <div class="text-right">
                                     <p class="text-white/60 text-xs font-medium mb-1">Account Number</p>
@@ -847,6 +888,309 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
                     </div>
                 </div>
             </div>
+<div id="page-profile" class="page-content hidden page-transition max-w-7xl mx-auto space-y-6">
+
+    <!-- Profile Header Card -->
+    <div class="card rounded-2xl p-8">
+        <div class="flex flex-col md:flex-row items-center gap-6">
+            <div class="relative">
+                <img id="profile-avatar" src="https://ui-avatars.com/api/?name=Alex+Morgan&background=0ea5e9&color=fff&size=256" alt="Profile" class="profile-avatar">
+                <button onclick="document.getElementById('avatar-upload').click()" class="absolute bottom-0 right-0 w-10 h-10 rounded-full gradient-bg flex items-center justify-center text-white shadow-lg hover:scale-110 transition-transform cursor-pointer">
+                    <i class="fa-solid fa-camera text-sm"></i>
+                </button>
+                <input type="file" id="avatar-upload" class="hidden" accept="image/*" onchange="handleAvatarUpload(this)">
+            </div>
+            <div class="text-center md:text-left flex-1">
+                <h2 id="profile-display-name" class="text-2xl font-display font-bold" style="color: var(--text-primary);">Alex Morgan</h2>
+                <p id="profile-display-email" class="text-sm mt-1" style="color: var(--text-muted);">alex@fintrack.com</p>
+                <div class="flex flex-wrap gap-2 mt-3 justify-center md:justify-start">
+                    <span class="badge badge-success">Premium Member</span>
+                    <span class="badge badge-warning">Active</span>
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <button onclick="openModal('edit-profile-modal')" class="btn-primary px-5 py-3 rounded-xl font-semibold text-sm flex items-center gap-2 cursor-pointer">
+                    <i class="fa-solid fa-pen"></i> Edit Profile
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+
+        <!-- User Information Management -->
+        <div class="lg:col-span-2 space-y-5">
+            <div class="profile-section">
+                <div class="flex items-center gap-3 mb-5">
+                    <div class="w-10 h-10 rounded-xl bg-primary-500/10 flex items-center justify-center text-primary-400">
+                        <i class="fa-solid fa-id-card"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-display font-bold text-lg" style="color: var(--text-primary);">Personal Information</h3>
+                        <p class="text-xs" style="color: var(--text-muted);">Manage your personal details</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider mb-2" style="color: var(--text-muted);">Full Name</label>
+                        <p id="info-name" class="text-sm font-semibold" style="color: var(--text-primary);">Alex Morgan</p>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider mb-2" style="color: var(--text-muted);">Email Address</label>
+                        <p id="info-email" class="text-sm font-semibold" style="color: var(--text-primary);">alex@fintrack.com</p>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider mb-2" style="color: var(--text-muted);">Phone Number</label>
+                        <p id="info-phone" class="text-sm font-semibold" style="color: var(--text-primary);">+1 (555) 123-4567</p>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider mb-2" style="color: var(--text-muted);">Date of Birth</label>
+                        <p id="info-dob" class="text-sm font-semibold" style="color: var(--text-primary);">March 15, 1990</p>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider mb-2" style="color: var(--text-muted);">Occupation</label>
+                        <p id="info-occupation" class="text-sm font-semibold" style="color: var(--text-primary);">Software Engineer</p>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider mb-2" style="color: var(--text-muted);">Location</label>
+                        <p id="info-location" class="text-sm font-semibold" style="color: var(--text-primary);">San Francisco, CA</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <div class="flex items-center gap-3 mb-5">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-display font-bold text-lg" style="color: var(--text-primary);">Security</h3>
+                        <p class="text-xs" style="color: var(--text-muted);">Manage your account security</p>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <div class="pref-item">
+                        <div>
+                            <p class="text-sm font-semibold" style="color: var(--text-primary);">Password</p>
+                            <p class="text-xs" style="color: var(--text-muted);">Last changed 30 days ago</p>
+                        </div>
+                        <button onclick="openModal('change-password-modal')" class="btn-secondary px-4 py-2 rounded-lg text-xs font-semibold cursor-pointer">Change</button>
+                    </div>
+                    <div class="pref-item">
+                        <div>
+                            <p class="text-sm font-semibold" style="color: var(--text-primary);">Two-Factor Authentication</p>
+                            <p class="text-xs" style="color: var(--text-muted);">Add an extra layer of security</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="2fa-toggle" onchange="savePreference('twoFactor', this.checked)">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="pref-item">
+                        <div>
+                            <p class="text-sm font-semibold" style="color: var(--text-primary);">Login Notifications</p>
+                            <p class="text-xs" style="color: var(--text-muted);">Get notified of new logins</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="login-notif-toggle" checked onchange="savePreference('loginNotifications', this.checked)">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Settings & Account Preferences -->
+        <div class="space-y-5">
+
+            <!-- Profile Settings -->
+            <div class="profile-section">
+                <div class="flex items-center gap-3 mb-5">
+                    <div class="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400">
+                        <i class="fa-solid fa-sliders"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-display font-bold text-lg" style="color: var(--text-primary);">Profile Settings</h3>
+                        <p class="text-xs" style="color: var(--text-muted);">Customize your experience</p>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <div class="pref-item">
+                        <div>
+                            <p class="text-sm font-semibold" style="color: var(--text-primary);">Display Name</p>
+                            <p class="text-xs" style="color: var(--text-muted);">How others see you</p>
+                        </div>
+                        <p id="setting-display-name" class="text-sm font-medium" style="color: var(--text-secondary);">Alex Morgan</p>
+                    </div>
+                    <div class="pref-item">
+                        <div>
+                            <p class="text-sm font-semibold" style="color: var(--text-primary);">Currency</p>
+                            <p class="text-xs" style="color: var(--text-muted);">Preferred currency</p>
+                        </div>
+                        <select id="setting-currency" onchange="savePreference('currency', this.value)" class="input-field px-3 py-1.5 rounded-lg text-xs cursor-pointer">
+                            <option value="USD">USD ($)</option>
+                            <option value="EUR">EUR (€)</option>
+                            <option value="GBP">GBP (£)</option>
+                            <option value="PKR">PKR (/-)</option>
+                            <option value="JPY">JPY (¥)</option>
+                        </select>
+                    </div>
+                    <div class="pref-item">
+                        <div>
+                            <p class="text-sm font-semibold" style="color: var(--text-primary);">Language</p>
+                            <p class="text-xs" style="color: var(--text-muted);">App language</p>
+                        </div>
+                        <select id="setting-language" onchange="savePreference('language', this.value)" class="input-field px-3 py-1.5 rounded-lg text-xs cursor-pointer">
+                            <option value="en">English</option>
+                            <option value="es">Español</option>
+                            <option value="fr">Français</option>
+                            <option value="de">Deutsch</option>
+                            <option value="hi">Urdu</option>
+                        </select>
+                    </div>
+                    <div class="pref-item">
+                        <div>
+                            <p class="text-sm font-semibold" style="color: var(--text-primary);">Time Zone</p>
+                            <p class="text-xs" style="color: var(--text-muted);">Local time zone</p>
+                        </div>
+                        <select id="setting-timezone" onchange="savePreference('timezone', this.value)" class="input-field px-3 py-1.5 rounded-lg text-xs cursor-pointer">
+                            <option value="UTC-8">Pacific (UTC-8)</option>
+                            <option value="UTC-5">Eastern (UTC-5)</option>
+                            <option value="UTC+0">GMT (UTC+0)</option>
+                            <option value="UTC+1">Central Europe (UTC+1)</option>
+                            <option value="UTC+5.5">Pakistan (UTC+5:30)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Preferences -->
+            <div class="profile-section">
+                <div class="flex items-center gap-3 mb-5">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400">
+                        <i class="fa-solid fa-gear"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-display font-bold text-lg" style="color: var(--text-primary);">Account Preferences</h3>
+                        <p class="text-xs" style="color: var(--text-muted);">Manage your account behavior</p>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <div class="pref-item">
+                        <div>
+                            <p class="text-sm font-semibold" style="color: var(--text-primary);">Email Notifications</p>
+                            <p class="text-xs" style="color: var(--text-muted);">Receive updates via email</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="email-notif-toggle" checked onchange="savePreference('emailNotifications', this.checked)">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="pref-item">
+                        <div>
+                            <p class="text-sm font-semibold" style="color: var(--text-primary);">Budget Alerts</p>
+                            <p class="text-xs" style="color: var(--text-muted);">Warn when near budget limit</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="budget-alert-toggle" checked onchange="savePreference('budgetAlerts', this.checked)">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="pref-item">
+                        <div>
+                            <p class="text-sm font-semibold" style="color: var(--text-primary);">Weekly Reports</p>
+                            <p class="text-xs" style="color: var(--text-muted);">Get weekly summary emails</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="weekly-report-toggle" onchange="savePreference('weeklyReports', this.checked)">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="pref-item">
+                        <div>
+                            <p class="text-sm font-semibold" style="color: var(--text-primary);">Auto-Backup</p>
+                            <p class="text-xs" style="color: var(--text-muted);">Automatically backup data</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="auto-backup-toggle" checked onchange="savePreference('autoBackup', this.checked)">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="pref-item">
+                        <div>
+                            <p class="text-sm font-semibold" style="color: var(--text-primary);">Compact View</p>
+                            <p class="text-xs" style="color: var(--text-muted);">Show compact transaction list</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="compact-view-toggle" onchange="savePreference('compactView', this.checked)">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Stats -->
+            <div class="profile-section">
+                <div class="flex items-center gap-3 mb-5">
+                    <div class="w-10 h-10 rounded-xl bg-rose-500/10 flex items-center justify-center text-rose-400">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-display font-bold text-lg" style="color: var(--text-primary);">Account Stats</h3>
+                        <p class="text-xs" style="color: var(--text-muted);">Your activity overview</p>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex justify-between text-sm">
+                        <span style="color: var(--text-muted);">Member Since</span>
+                        <span class="font-semibold" style="color: var(--text-primary);">January 2024</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span style="color: var(--text-muted);">Total Transactions</span>
+                        <span class="font-semibold" style="color: var(--text-primary);" id="profile-total-transactions">0</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span style="color: var(--text-muted);">Active Budgets</span>
+                        <span class="font-semibold" style="color: var(--text-primary);" id="profile-active-budgets">0</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span style="color: var(--text-muted);">Last Login</span>
+                        <span class="font-semibold" style="color: var(--text-primary);">Just now</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Danger Zone -->
+            <div class="profile-section" style="border-color: rgba(248,113,113,0.3);">
+                <div class="flex items-center gap-3 mb-5">
+                    <div class="w-10 h-10 rounded-xl bg-rose-500/10 flex items-center justify-center text-rose-400">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-display font-bold text-lg text-rose-400">Danger Zone</h3>
+                        <p class="text-xs" style="color: var(--text-muted);">Irreversible actions</p>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <div class="pref-item">
+                        <div>
+                            <p class="text-sm font-semibold text-rose-400">Clear All Data</p>
+                            <p class="text-xs" style="color: var(--text-muted);">Delete all transactions and budgets</p>
+                        </div>
+                        <button onclick="clearAllData()" class="px-4 py-2 rounded-lg text-xs font-semibold bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 transition-colors cursor-pointer">Clear</button>
+                    </div>
+                    <div class="pref-item">
+                        <div>
+                            <p class="text-sm font-semibold text-rose-400">Reset to Defaults</p>
+                            <p class="text-xs" style="color: var(--text-muted);">Reset all settings to default</p>
+                        </div>
+                        <button onclick="resetToDefaults()" class="px-4 py-2 rounded-lg text-xs font-semibold bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 transition-colors cursor-pointer">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
         </div>
     </main>
 
@@ -867,6 +1211,12 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
         <button onclick="navigateTo('reports')" class="flex flex-col items-center gap-1 py-2 px-3 rounded-xl transition-colors" style="color: var(--text-muted);" data-mobile-page="reports">
             <i class="fa-solid fa-file-invoice-dollar text-lg"></i><span class="text-[10px] font-medium">Reports</span>
         </button>
+<button onclick="navigateTo('profile')" class="flex flex-col items-center gap-1 py-2 px-3 rounded-xl transition-colors" style="color: var(--text-muted);" data-mobile-page="profile">
+            <i class="fa-solid fa-user text-lg"></i><span class="text-[10px] font-medium">Profile</span>
+        </button>
+ <button onclick="navigateTo('profile')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all" data-page="profile">
+                <i class="fa-solid fa-user w-5 text-center"></i>Profile
+            </button>
     </nav>
 </div>
 
@@ -971,6 +1321,92 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
             </div>
             <button onclick="closeModal('restore-modal')" class="w-full py-3 rounded-xl text-sm font-semibold transition-colors hover:bg-slate-100 dark:hover:bg-slate-700" style="color: var(--text-secondary); border: 1px solid var(--border-color);">Cancel</button>
         </div>
+    </div>
+</div>
+
+<!-- EDIT PROFILE MODAL -->
+<div id="edit-profile-modal" class="modal-overlay fixed inset-0 bg-black/40 z-50 hidden flex items-center justify-center p-4">
+    <div class="card w-full max-w-lg rounded-2xl shadow-2xl p-6 transform scale-95 opacity-0 transition-all duration-300" id="edit-profile-modal-content">
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <h3 class="font-display font-bold text-xl" style="color: var(--text-primary);">Edit Profile</h3>
+                <p class="text-sm" style="color: var(--text-muted);">Update your personal information</p>
+            </div>
+            <button onclick="closeModal('edit-profile-modal')" class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:bg-slate-700" style="color: var(--text-muted);">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <form id="edit-profile-form" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-semibold mb-2" style="color: var(--text-secondary);">First Name</label>
+                    <input type="text" id="edit-first-name" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="First name" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-2" style="color: var(--text-secondary);">Last Name</label>
+                    <input type="text" id="edit-last-name" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="Last name" required>
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold mb-2" style="color: var(--text-secondary);">Email Address</label>
+                <input type="email" id="edit-email" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="your@email.com" required>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold mb-2" style="color: var(--text-secondary);">Phone Number</label>
+                <input type="tel" id="edit-phone" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="+1 (555) 000-0000">
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-semibold mb-2" style="color: var(--text-secondary);">Date of Birth</label>
+                    <input type="date" id="edit-dob" class="input-field w-full px-4 py-3 rounded-xl text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-2" style="color: var(--text-secondary);">Occupation</label>
+                    <input type="text" id="edit-occupation" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="Your job title">
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold mb-2" style="color: var(--text-secondary);">Location</label>
+                <input type="text" id="edit-location" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="City, Country">
+            </div>
+            <div class="flex gap-3 pt-2">
+                <button type="button" onclick="closeModal('edit-profile-modal')" class="flex-1 py-3.5 rounded-xl text-sm font-semibold transition-colors hover:bg-slate-700" style="color: var(--text-secondary); border: 1px solid var(--border-color);">Cancel</button>
+                <button type="submit" class="flex-1 btn-primary py-3.5 rounded-xl font-semibold text-sm">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- CHANGE PASSWORD MODAL -->
+<div id="change-password-modal" class="modal-overlay fixed inset-0 bg-black/40 z-50 hidden flex items-center justify-center p-4">
+    <div class="card w-full max-w-md rounded-2xl shadow-2xl p-6 transform scale-95 opacity-0 transition-all duration-300" id="change-password-modal-content">
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <h3 class="font-display font-bold text-xl" style="color: var(--text-primary);">Change Password</h3>
+                <p class="text-sm" style="color: var(--text-muted);">Update your account password</p>
+            </div>
+            <button onclick="closeModal('change-password-modal')" class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:bg-slate-700" style="color: var(--text-muted);">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <form id="change-password-form" class="space-y-4">
+            <div>
+                <label class="block text-sm font-semibold mb-2" style="color: var(--text-secondary);">Current Password</label>
+                <input type="password" id="current-password" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="Enter current password" required>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold mb-2" style="color: var(--text-secondary);">New Password</label>
+                <input type="password" id="new-password" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="Enter new password" required>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold mb-2" style="color: var(--text-secondary);">Confirm New Password</label>
+                <input type="password" id="confirm-password" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="Confirm new password" required>
+            </div>
+            <div class="flex gap-3 pt-2">
+                <button type="button" onclick="closeModal('change-password-modal')" class="flex-1 py-3.5 rounded-xl text-sm font-semibold transition-colors hover:bg-slate-700" style="color: var(--text-secondary); border: 1px solid var(--border-color);">Cancel</button>
+                <button type="submit" class="flex-1 btn-primary py-3.5 rounded-xl font-semibold text-sm">Update Password</button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -1098,7 +1534,7 @@ function navigateTo(page) {
             el.classList.remove('text-slate-400');
         }
     });
-    const titles = { 'dashboard': 'Dashboard', 'transactions': 'Transactions', 'accounts': 'My Accounts', 'budgets': 'Budget Planner', 'reports': 'Financial Reports' };
+    const titles = { 'dashboard': 'Dashboard', 'transactions': 'Transactions', 'accounts': 'My Accounts', 'budgets': 'Budget Planner', 'reports': 'Financial Reports', 'profile': 'User Profile' };
     document.getElementById('page-title').textContent = titles[page] || 'FinTrack';
     currentPage = page;
     setTimeout(() => {
@@ -1856,9 +2292,224 @@ function initReportCharts() {
     });
 }
 
+// ==================== PROFILE FUNCTIONS ====================
+
+// Default profile data
+const defaultProfile = {
+    firstName: "Alex",
+    lastName: "Morgan",
+    email: "alex@fintrack.com",
+    phone: "+1 (555) 123-4567",
+    dob: "1990-03-15",
+    occupation: "Software Engineer",
+    location: "San Francisco, CA",
+    avatar: null,
+    preferences: {
+        currency: "USD",
+        language: "en",
+        timezone: "UTC-8",
+        emailNotifications: true,
+        budgetAlerts: true,
+        weeklyReports: false,
+        autoBackup: true,
+        compactView: false,
+        twoFactor: false,
+        loginNotifications: true
+    }
+};
+
+// Load profile from localStorage or use default
+function loadProfile() {
+    const stored = localStorage.getItem('fintrack_profile');
+    if (stored) {
+        return JSON.parse(stored);
+    }
+    return JSON.parse(JSON.stringify(defaultProfile));
+}
+
+// Save profile to localStorage
+function saveProfile(profile) {
+    localStorage.setItem('fintrack_profile', JSON.stringify(profile));
+}
+
+// Update all profile UI elements
+function updateProfileUI() {
+    const profile = loadProfile();
+    const fullName = profile.firstName + " " + profile.lastName;
+
+    // Header
+    document.getElementById('header-user-name').textContent = fullName;
+    document.getElementById('profile-display-name').textContent = fullName;
+    document.getElementById('profile-display-email').textContent = profile.email;
+
+    // Personal Info
+    document.getElementById('info-name').textContent = fullName;
+    document.getElementById('info-email').textContent = profile.email;
+    document.getElementById('info-phone').textContent = profile.phone || "Not set";
+    document.getElementById('info-dob').textContent = profile.dob ? new Date(profile.dob).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : "Not set";
+    document.getElementById('info-occupation').textContent = profile.occupation || "Not set";
+    document.getElementById('info-location').textContent = profile.location || "Not set";
+
+    // Settings display
+    document.getElementById('setting-display-name').textContent = fullName;
+    document.getElementById('setting-currency').value = profile.preferences.currency;
+    document.getElementById('setting-language').value = profile.preferences.language;
+    document.getElementById('setting-timezone').value = profile.preferences.timezone;
+
+    // Toggles
+    document.getElementById('email-notif-toggle').checked = profile.preferences.emailNotifications;
+    document.getElementById('budget-alert-toggle').checked = profile.preferences.budgetAlerts;
+    document.getElementById('weekly-report-toggle').checked = profile.preferences.weeklyReports;
+    document.getElementById('auto-backup-toggle').checked = profile.preferences.autoBackup;
+    document.getElementById('compact-view-toggle').checked = profile.preferences.compactView;
+    document.getElementById('2fa-toggle').checked = profile.preferences.twoFactor;
+    document.getElementById('login-notif-toggle').checked = profile.preferences.loginNotifications;
+
+    // Stats
+    document.getElementById('profile-total-transactions').textContent = appData.transactions.length;
+    document.getElementById('profile-active-budgets').textContent = appData.budgets.length;
+
+    // Avatar
+    const avatarImg = document.getElementById('profile-avatar');
+    const headerAvatar = document.getElementById('header-avatar');
+    if (profile.avatar) {
+        avatarImg.src = profile.avatar;
+        headerAvatar.src = profile.avatar;
+    } else {
+        avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=0ea5e9&color=fff&size=256`;
+        headerAvatar.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=0ea5e9&color=fff&size=128`;
+    }
+
+    // Card holder name
+    document.getElementById('card-holder-name').textContent = fullName.toUpperCase();
+}
+
+// Handle avatar upload
+function handleAvatarUpload(input) {
+    const file = input.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+        showToast('Please select an image file', 'error');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const profile = loadProfile();
+        profile.avatar = e.target.result;
+        saveProfile(profile);
+        updateProfileUI();
+        showToast('Profile picture updated', 'success');
+    };
+    reader.readAsDataURL(file);
+    input.value = '';
+}
+
+// Save preference
+function savePreference(key, value) {
+    const profile = loadProfile();
+    profile.preferences[key] = value;
+    saveProfile(profile);
+    showToast('Preference saved', 'success');
+}
+
+// Edit profile form handler
+document.getElementById('edit-profile-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const profile = loadProfile();
+    profile.firstName = document.getElementById('edit-first-name').value;
+    profile.lastName = document.getElementById('edit-last-name').value;
+    profile.email = document.getElementById('edit-email').value;
+    profile.phone = document.getElementById('edit-phone').value;
+    profile.dob = document.getElementById('edit-dob').value;
+    profile.occupation = document.getElementById('edit-occupation').value;
+    profile.location = document.getElementById('edit-location').value;
+
+    saveProfile(profile);
+    updateProfileUI();
+    closeModal('edit-profile-modal');
+    showToast('Profile updated successfully', 'success');
+});
+
+// Open edit profile modal with current data
+function openEditProfileModal() {
+    const profile = loadProfile();
+    document.getElementById('edit-first-name').value = profile.firstName;
+    document.getElementById('edit-last-name').value = profile.lastName;
+    document.getElementById('edit-email').value = profile.email;
+    document.getElementById('edit-phone').value = profile.phone || '';
+    document.getElementById('edit-dob').value = profile.dob || '';
+    document.getElementById('edit-occupation').value = profile.occupation || '';
+    document.getElementById('edit-location').value = profile.location || '';
+    openModal('edit-profile-modal');
+}
+
+// Change password form handler
+document.getElementById('change-password-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const currentPass = document.getElementById('current-password').value;
+    const newPass = document.getElementById('new-password').value;
+    const confirmPass = document.getElementById('confirm-password').value;
+
+    // Simple validation (in real app, verify against stored password)
+    if (currentPass !== 'password123') {
+        showToast('Current password is incorrect', 'error');
+        return;
+    }
+
+    if (newPass.length < 6) {
+        showToast('Password must be at least 6 characters', 'error');
+        return;
+    }
+
+    if (newPass !== confirmPass) {
+        showToast('Passwords do not match', 'error');
+        return;
+    }
+
+    closeModal('change-password-modal');
+    showToast('Password changed successfully', 'success');
+    this.reset();
+});
+
+// Clear all data
+function clearAllData() {
+    if (!confirm('WARNING: This will permanently delete ALL your transactions and budgets. This action cannot be undone. Are you sure?')) return;
+    if (!confirm('Are you absolutely sure? All your data will be lost forever.')) return;
+
+    appData.transactions = [];
+    appData.budgets = [];
+    saveData();
+    updateAllViews();
+    updateProfileUI();
+    showToast('All data cleared', 'success');
+}
+
+// Reset to defaults
+function resetToDefaults() {
+    if (!confirm('This will reset all settings to default values. Continue?')) return;
+
+    localStorage.removeItem('fintrack_profile');
+    updateProfileUI();
+    showToast('Settings reset to defaults', 'success');
+}
+
+// Initialize profile on page load
+function initProfile() {
+    // Ensure profile exists
+    if (!localStorage.getItem('fintrack_profile')) {
+        saveProfile(defaultProfile);
+    }
+    updateProfileUI();
+}
+
 // ==================== INIT ====================
 document.addEventListener('DOMContentLoaded', () => {
     loadData();
+    initProfile();
     updateAllViews();
 });
 </script>
