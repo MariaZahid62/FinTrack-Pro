@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FinTrack Pro | Premium Finance Experience</title>
+<title>FinTrack Pro | Premium Finance</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -32,116 +32,435 @@ tailwind.config = {
 }
 </script>
 <style>
+/* ===== LIGHT MODE (DEFAULT) - FIXED TEXT VISIBILITY ===== */
 :root {
-    --bg-primary: #f8fafc; --bg-card: #ffffff; --text-primary: #0f172a;
-    --text-secondary: #64748b; --border-color: #e2e8f0;
-    --accent: #0ea5e9; --accent-glow: rgba(14, 165, 233, 0.15);
-    --success: #10b981; --danger: #ef4444; --warning: #f59e0b;
+    --bg-primary: #f1f5f9;
+    --bg-card: #ffffff;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --accent: #0ea5e9;
+    --accent-glow: rgba(14, 165, 233, 0.12);
+    --success: #059669;
+    --danger: #dc2626;
+    --warning: #d97706;
+    --input-bg: #f8fafc;
+    --hover-bg: #f1f5f9;
+    --sidebar-bg: #ffffff;
+    --header-bg: rgba(255,255,255,0.95);
 }
+
+/* ===== DARK MODE ===== */
 .dark {
-    --bg-primary: #0f172a; --bg-card: #1e293b; --text-primary: #f8fafc;
-    --text-secondary: #94a3b8; --border-color: #334155;
-    --accent: #38bdf8; --accent-glow: rgba(56, 189, 248, 0.15);
-    --success: #34d399; --danger: #f87171; --warning: #fbbf24;
+    --bg-primary: #0f172a;
+    --bg-card: #1e293b;
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --border-color: #334155;
+    --accent: #38bdf8;
+    --accent-glow: rgba(56, 189, 248, 0.12);
+    --success: #34d399;
+    --danger: #f87171;
+    --warning: #fbbf24;
+    --input-bg: #1e293b;
+    --hover-bg: #334155;
+    --sidebar-bg: #1e293b;
+    --header-bg: rgba(30, 41, 59, 0.95);
 }
-body { background-color: var(--bg-primary); color: var(--text-primary); font-family: 'Plus Jakarta Sans', sans-serif; transition: background-color 0.3s, color 0.3s; }
-.card { background-color: var(--bg-card); border: 1px solid var(--border-color); transition: all 0.3s ease; }
-.card:hover { box-shadow: 0 4px 20px -4px rgba(0,0,0,0.1); transform: translateY(-2px); }
-.dark .card:hover { box-shadow: 0 4px 20px -4px rgba(0,0,0,0.3); }
-.gradient-text { background: linear-gradient(135deg, #0ea5e9 0%, #c026d3 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.gradient-bg { background: linear-gradient(135deg, #0ea5e9 0%, #c026d3 100%); }
-.nav-item { position: relative; transition: all 0.2s ease; }
-.nav-item::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 0; background: linear-gradient(180deg, #0ea5e9, #c026d3); border-radius: 0 4px 4px 0; transition: height 0.3s ease; }
+
+body { 
+    background-color: var(--bg-primary); 
+    color: var(--text-primary); 
+    font-family: 'Plus Jakarta Sans', sans-serif; 
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ===== CARDS ===== */
+.card { 
+    background-color: var(--bg-card); 
+    border: 1px solid var(--border-color); 
+    transition: all 0.3s ease; 
+    color: var(--text-primary);
+}
+.card:hover { 
+    box-shadow: 0 8px 30px -8px rgba(0,0,0,0.12); 
+    transform: translateY(-2px); 
+}
+.dark .card:hover { 
+    box-shadow: 0 8px 30px -8px rgba(0,0,0,0.4); 
+}
+
+/* ===== TEXT UTILITIES ===== */
+.text-primary { color: var(--text-primary) !important; }
+.text-secondary { color: var(--text-secondary) !important; }
+.text-muted { color: var(--text-muted) !important; }
+
+/* ===== GRADIENTS ===== */
+.gradient-text { 
+    background: linear-gradient(135deg, #0ea5e9 0%, #c026d3 100%); 
+    -webkit-background-clip: text; 
+    -webkit-text-fill-color: transparent; 
+    background-clip: text; 
+}
+.gradient-bg { 
+    background: linear-gradient(135deg, #0ea5e9 0%, #c026d3 100%); 
+}
+
+/* ===== NAVIGATION ===== */
+.nav-item { 
+    position: relative; 
+    transition: all 0.2s ease; 
+    color: var(--text-muted);
+}
+.nav-item::before { 
+    content: ''; 
+    position: absolute; 
+    left: 0; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    width: 3px; 
+    height: 0; 
+    background: linear-gradient(180deg, #0ea5e9, #c026d3); 
+    border-radius: 0 4px 4px 0; 
+    transition: height 0.3s ease; 
+}
 .nav-item.active::before { height: 70%; }
-.nav-item.active { background: linear-gradient(90deg, rgba(14, 165, 233, 0.08), transparent); color: var(--accent); }
-.dark .nav-item.active { background: linear-gradient(90deg, rgba(56, 189, 248, 0.08), transparent); }
-.btn-primary { background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%); transition: all 0.3s ease; position: relative; overflow: hidden; }
-.btn-primary::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.2) 100%); opacity: 0; transition: opacity 0.3s ease; }
+.nav-item.active { 
+    background: linear-gradient(90deg, rgba(14, 165, 233, 0.08), transparent); 
+    color: var(--accent); 
+    font-weight: 600;
+}
+.dark .nav-item.active { 
+    background: linear-gradient(90deg, rgba(56, 189, 248, 0.08), transparent); 
+}
+.nav-item:hover {
+    color: var(--text-primary);
+    background: var(--hover-bg);
+}
+
+/* ===== BUTTONS ===== */
+.btn-primary { 
+    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%); 
+    transition: all 0.3s ease; 
+    position: relative; 
+    overflow: hidden; 
+    color: white;
+}
+.btn-primary::after { 
+    content: ''; 
+    position: absolute; 
+    inset: 0; 
+    background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.2) 100%); 
+    opacity: 0; 
+    transition: opacity 0.3s ease; 
+}
 .btn-primary:hover::after { opacity: 1; }
-.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 25px -4px rgba(14, 165, 233, 0.4); }
+.btn-primary:hover { 
+    transform: translateY(-1px); 
+    box-shadow: 0 8px 25px -4px rgba(14, 165, 233, 0.4); 
+}
 .btn-primary:active { transform: translateY(0); }
-.bank-card { background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%); position: relative; overflow: hidden; }
-.bank-card::before { content: ''; position: absolute; top: -50%; right: -50%; width: 100%; height: 100%; background: radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, transparent 60%); }
-.bank-card::after { content: ''; position: absolute; bottom: -50%; left: -50%; width: 100%; height: 100%; background: radial-gradient(circle, rgba(192, 38, 211, 0.1) 0%, transparent 60%); }
-.bank-card-shine { position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); animation: cardShine 4s infinite; }
-@keyframes cardShine { 0% { left: -100%; } 50%, 100% { left: 200%; } }
-.input-field { background: var(--bg-primary); border: 1px solid var(--border-color); color: var(--text-primary); transition: all 0.2s ease; }
-.input-field:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); outline: none; }
+
+.btn-secondary {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+}
+.btn-secondary:hover {
+    background: var(--hover-bg);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* ===== BANK CARD ===== */
+.bank-card { 
+    background: linear-gradient(135deg, #0c4a6e 0%, #1e3a5f 50%, #0f172a 100%); 
+    position: relative; 
+    overflow: hidden; 
+}
+.bank-card::before { 
+    content: ''; 
+    position: absolute; 
+    top: -50%; 
+    right: -50%; 
+    width: 100%; 
+    height: 100%; 
+    background: radial-gradient(circle, rgba(14, 165, 233, 0.2) 0%, transparent 60%); 
+}
+.bank-card::after { 
+    content: ''; 
+    position: absolute; 
+    bottom: -50%; 
+    left: -50%; 
+    width: 100%; 
+    height: 100%; 
+    background: radial-gradient(circle, rgba(192, 38, 211, 0.15) 0%, transparent 60%); 
+}
+.bank-card-shine { 
+    position: absolute; 
+    top: 0; 
+    left: -100%; 
+    width: 50%; 
+    height: 100%; 
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent); 
+    animation: cardShine 5s infinite; 
+}
+@keyframes cardShine { 
+    0% { left: -100%; } 
+    50%, 100% { left: 200%; } 
+}
+
+/* ===== INPUTS ===== */
+.input-field { 
+    background: var(--input-bg); 
+    border: 1px solid var(--border-color); 
+    color: var(--text-primary); 
+    transition: all 0.2s ease; 
+}
+.input-field:focus { 
+    border-color: var(--accent); 
+    box-shadow: 0 0 0 3px var(--accent-glow); 
+    outline: none; 
+}
+.input-field::placeholder {
+    color: var(--text-muted);
+}
+
+/* ===== TOGGLE SWITCH ===== */
 .toggle-switch { position: relative; width: 44px; height: 24px; }
 .toggle-switch input { opacity: 0; width: 0; height: 0; }
-.toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: #e2e8f0; transition: 0.3s; border-radius: 24px; }
-.toggle-slider::before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background: white; transition: 0.3s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-input:checked + .toggle-slider { background: linear-gradient(135deg, #0ea5e9, #c026d3); }
+.toggle-slider { 
+    position: absolute; 
+    cursor: pointer; 
+    top: 0; left: 0; right: 0; bottom: 0; 
+    background: #cbd5e1; 
+    transition: 0.3s; 
+    border-radius: 24px; 
+}
+.toggle-slider::before { 
+    position: absolute; 
+    content: ""; 
+    height: 18px; width: 18px; 
+    left: 3px; bottom: 3px; 
+    background: white; 
+    transition: 0.3s; 
+    border-radius: 50%; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15); 
+}
+input:checked + .toggle-slider { 
+    background: linear-gradient(135deg, #0ea5e9, #c026d3); 
+}
 input:checked + .toggle-slider::before { transform: translateX(20px); }
-.dark input:not(:checked) + .toggle-slider { background: #475569; }
-.badge { font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 9999px; font-weight: 600; }
-.badge-success { background: rgba(16, 185, 129, 0.1); color: #10b981; }
-.dark .badge-success { background: rgba(52, 211, 153, 0.1); color: #34d399; }
-.badge-warning { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
-.dark .badge-warning { background: rgba(251, 191, 36, 0.1); color: #fbbf24; }
-.badge-danger { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
-.dark .badge-danger { background: rgba(248, 113, 113, 0.1); color: #f87171; }
-.progress-bar { background: linear-gradient(90deg, #0ea5e9, #c026d3); transition: width 1s ease; }
+.dark .toggle-slider { background: #475569; }
+
+/* ===== BADGES ===== */
+.badge { 
+    font-size: 0.7rem; 
+    padding: 0.25rem 0.75rem; 
+    border-radius: 9999px; 
+    font-weight: 600; 
+}
+.badge-success { 
+    background: rgba(5, 150, 105, 0.1); 
+    color: #059669; 
+}
+.dark .badge-success { 
+    background: rgba(52, 211, 153, 0.1); 
+    color: #34d399; 
+}
+.badge-warning { 
+    background: rgba(217, 119, 6, 0.1); 
+    color: #d97706; 
+}
+.dark .badge-warning { 
+    background: rgba(251, 191, 36, 0.1); 
+    color: #fbbf24; 
+}
+.badge-danger { 
+    background: rgba(220, 38, 38, 0.1); 
+    color: #dc2626; 
+}
+.dark .badge-danger { 
+    background: rgba(248, 113, 113, 0.1); 
+    color: #f87171; 
+}
+
+/* ===== PROGRESS BAR ===== */
+.progress-bar { 
+    background: linear-gradient(90deg, #0ea5e9, #c026d3); 
+    transition: width 1s ease; 
+}
+
+/* ===== TABLE ROWS ===== */
 .transaction-row { transition: all 0.2s ease; }
-.transaction-row:hover { background: linear-gradient(90deg, rgba(14, 165, 233, 0.03), transparent); }
-.page-transition { animation: pageEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-@keyframes pageEnter { from { opacity: 0; transform: translateY(20px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.transaction-row:hover { 
+    background: linear-gradient(90deg, rgba(14, 165, 233, 0.04), transparent); 
+}
+.dark .transaction-row:hover {
+    background: linear-gradient(90deg, rgba(56, 189, 248, 0.06), transparent);
+}
+
+/* ===== PAGE TRANSITIONS ===== */
+.page-transition { 
+    animation: pageEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+}
+@keyframes pageEnter { 
+    from { opacity: 0; transform: translateY(20px) scale(0.98); } 
+    to { opacity: 1; transform: translateY(0) scale(1); } 
+}
+
+/* ===== SCROLLBAR ===== */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
 .dark ::-webkit-scrollbar-thumb { background: #475569; }
 ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* ===== AMOUNT COLORS ===== */
 .amount-positive { color: var(--success); }
 .amount-negative { color: var(--danger); }
-.tab-btn { padding: 0.5rem 1rem; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 500; transition: all 0.2s ease; color: var(--text-secondary); }
-.tab-btn.active { background: var(--accent); color: white; }
-.tab-btn:hover:not(.active) { background: var(--accent-glow); color: var(--accent); }
+
+/* ===== TABS ===== */
+.tab-btn { 
+    padding: 0.5rem 1rem; 
+    border-radius: 0.5rem; 
+    font-size: 0.875rem; 
+    font-weight: 500; 
+    transition: all 0.2s ease; 
+    color: var(--text-muted);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+.tab-btn.active { 
+    background: var(--accent); 
+    color: white; 
+}
+.tab-btn:hover:not(.active) { 
+    background: var(--accent-glow); 
+    color: var(--accent); 
+}
+
+/* ===== HEADER & SIDEBAR ===== */
+.app-header {
+    background: var(--header-bg);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+}
+.app-sidebar {
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+}
+
+/* ===== MOBILE NAV ===== */
+.mobile-nav {
+    background: var(--sidebar-bg);
+    border-top: 1px solid var(--border-color);
+}
+
+/* ===== MODAL OVERLAY ===== */
+.modal-overlay {
+    backdrop-filter: blur(8px);
+}
+
+/* ===== DROPDOWN MENU ===== */
+.dropdown-menu {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 40px -10px rgba(0,0,0,0.2);
+}
+.dark .dropdown-menu {
+    box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
+}
+
+/* ===== LOGIN PAGE ===== */
+.login-bg {
+    background: linear-gradient(135deg, #f0f9ff 0%, #faf5ff 50%, #fdf2f8 100%);
+}
+.dark .login-bg {
+    background: linear-gradient(135deg, #0c4a6e 0%, #1e1b4b 50%, #312e81 100%);
+}
+
+/* ===== CATEGORY TAGS ===== */
+.category-tag {
+    background: var(--hover-bg);
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+}
+.dark .category-tag {
+    background: rgba(255,255,255,0.05);
+}
+
+/* ===== STAT ICONS ===== */
+.stat-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+}
+.stat-icon.primary { background: rgba(14, 165, 233, 0.1); color: #0ea5e9; }
+.stat-icon.success { background: rgba(5, 150, 105, 0.1); color: #059669; }
+.stat-icon.danger { background: rgba(220, 38, 38, 0.1); color: #dc2626; }
+.stat-icon.warning { background: rgba(217, 119, 6, 0.1); color: #d97706; }
+.dark .stat-icon.primary { background: rgba(56, 189, 248, 0.1); color: #38bdf8; }
+.dark .stat-icon.success { background: rgba(52, 211, 153, 0.1); color: #34d399; }
+.dark .stat-icon.danger { background: rgba(248, 113, 113, 0.1); color: #f87171; }
+.dark .stat-icon.warning { background: rgba(251, 191, 36, 0.1); color: #fbbf24; }
 </style>
 </head>
 <body class="min-h-screen antialiased">
 <!-- LOGIN VIEW -->
-<div id="view-login" class="fixed inset-0 z-50 flex items-center justify-center p-4" style="background: linear-gradient(135deg, #f0f9ff 0%, #faf5ff 50%, #fdf2f8 100%);">
-    <div class="dark:hidden absolute inset-0 overflow-hidden pointer-events-none">
-        <div class="absolute top-20 left-20 w-72 h-72 bg-primary-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-        <div class="absolute top-40 right-20 w-72 h-72 bg-accent-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" style="animation-delay: 1s;"></div>
-        <div class="absolute bottom-20 left-1/2 w-72 h-72 bg-rose-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" style="animation-delay: 2s;"></div>
+<div id="view-login" class="fixed inset-0 z-50 flex items-center justify-center p-4 login-bg">
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-20 left-20 w-72 h-72 bg-primary-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+        <div class="absolute top-40 right-20 w-72 h-72 bg-accent-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" style="animation-delay: 1s;"></div>
+        <div class="absolute bottom-20 left-1/2 w-72 h-72 bg-rose-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" style="animation-delay: 2s;"></div>
     </div>
     <div class="card w-full max-w-md rounded-3xl shadow-2xl p-8 relative z-10">
         <div class="text-center mb-8">
             <div class="w-16 h-16 mx-auto mb-4 rounded-2xl gradient-bg flex items-center justify-center shadow-lg shadow-primary-500/30">
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
             </div>
-            <h1 class="text-2xl font-display font-bold text-slate-900 dark:text-white">FinTrack Pro</h1>
-            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">One Dashboard. Total Control.</p>
+            <h1 class="text-2xl font-display font-bold" style="color: var(--text-primary);">FinTrack Pro</h1>
+            <p class="text-sm mt-1" style="color: var(--text-muted);">Premium Financial Management</p>
         </div>
         <form id="login-form" class="space-y-5">
             <div>
-                <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Email</label>
+                <label class="block text-sm font-semibold mb-2" style="color: var(--text-secondary);">Email</label>
                 <div class="relative">
-                    <i class="fa-regular fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <i class="fa-regular fa-envelope absolute left-4 top-1/2 -translate-y-1/2" style="color: var(--text-muted);"></i>
                     <input type="email" id="login-email" value="alex@fintrack.com" class="input-field w-full pl-12 pr-4 py-3.5 rounded-xl text-sm" placeholder="Enter your email" required>
                 </div>
             </div>
             <div>
-                <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Password</label>
+                <label class="block text-sm font-semibold mb-2" style="color: var(--text-secondary);">Password</label>
                 <div class="relative">
-                    <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2" style="color: var(--text-muted);"></i>
                     <input type="password" id="login-password" value="password123" class="input-field w-full pl-12 pr-4 py-3.5 rounded-xl text-sm" placeholder="Enter your password" required>
                 </div>
             </div>
             <div class="flex items-center justify-between text-sm">
                 <label class="flex items-center gap-2 cursor-pointer">
                     <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500">
-                    <span class="text-slate-600 dark:text-slate-400">Remember me</span>
+                    <span style="color: var(--text-secondary);">Remember me</span>
                 </label>
                 <a href="#" class="text-primary-600 hover:text-primary-700 font-medium">Forgot password?</a>
             </div>
-            <button type="submit" id="login-btn" class="btn-primary w-full py-4 rounded-xl text-white font-semibold text-sm flex items-center justify-center gap-2">
+            <button type="submit" id="login-btn" class="btn-primary w-full py-4 rounded-xl font-semibold text-sm flex items-center justify-center gap-2">
                 <span>Sign In</span><i class="fa-solid fa-arrow-right"></i>
             </button>
         </form>
         <div class="mt-6 text-center">
-            <p class="text-sm text-slate-500 dark:text-slate-400">Don't have an account? <a href="#" class="text-primary-600 font-semibold hover:underline">Create one</a></p>
+            <p class="text-sm" style="color: var(--text-muted);">Don't have an account? <a href="#" class="text-primary-600 font-semibold hover:underline">Create one</a></p>
         </div>
     </div>
 </div>
@@ -149,36 +468,36 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
 <!-- MAIN APP -->
 <div id="app-container" class="hidden flex h-screen">
     <!-- Sidebar -->
-    <aside class="hidden lg:flex flex-col w-64 h-full border-r border-slate-200 dark:border-slate-700/50" style="background: var(--bg-card);">
+    <aside class="hidden lg:flex flex-col w-64 h-full app-sidebar">
         <div class="p-6 flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center shadow-lg shadow-primary-500/20">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
             </div>
             <div>
-                <h1 class="font-display font-bold text-lg text-slate-900 dark:text-white leading-tight">FinTrack</h1>
-                <p class="text-[10px] text-slate-400 font-medium tracking-wider uppercase">Pro</p>
+                <h1 class="font-display font-bold text-lg leading-tight" style="color: var(--text-primary);">FinTrack</h1>
+                <p class="text-[10px] font-medium tracking-wider uppercase" style="color: var(--text-muted);">Pro</p>
             </div>
         </div>
         <nav class="flex-1 px-4 space-y-1">
-            <button onclick="navigateTo('dashboard')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all" data-page="dashboard">
+            <button onclick="navigateTo('dashboard')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all" data-page="dashboard">
                 <i class="fa-solid fa-chart-pie w-5 text-center"></i>Dashboard
             </button>
-            <button onclick="navigateTo('transactions')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all" data-page="transactions">
+            <button onclick="navigateTo('transactions')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all" data-page="transactions">
                 <i class="fa-solid fa-arrow-right-arrow-left w-5 text-center"></i>Transactions
             </button>
-            <button onclick="navigateTo('accounts')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all" data-page="accounts">
+            <button onclick="navigateTo('accounts')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all" data-page="accounts">
                 <i class="fa-solid fa-wallet w-5 text-center"></i>Accounts
             </button>
-            <button onclick="navigateTo('budgets')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all" data-page="budgets">
+            <button onclick="navigateTo('budgets')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all" data-page="budgets">
                 <i class="fa-solid fa-bullseye w-5 text-center"></i>Budgets
             </button>
-            <button onclick="navigateTo('reports')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all" data-page="reports">
+            <button onclick="navigateTo('reports')" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all" data-page="reports">
                 <i class="fa-solid fa-file-invoice-dollar w-5 text-center"></i>Reports
             </button>
         </nav>
-        <div class="p-4 border-t border-slate-200 dark:border-slate-700/50">
+        <div class="p-4 border-t" style="border-color: var(--border-color);">
             <div class="flex items-center justify-between px-4 py-3 mb-2">
-                <span class="text-sm font-medium text-slate-600 dark:text-slate-400">Dark Mode</span>
+                <span class="text-sm font-medium" style="color: var(--text-secondary);">Dark Mode</span>
                 <label class="toggle-switch">
                     <input type="checkbox" id="theme-toggle" onchange="toggleTheme()">
                     <span class="toggle-slider"></span>
@@ -193,24 +512,24 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
     <!-- Main Content -->
     <main class="flex-1 flex flex-col h-full overflow-hidden">
         <!-- Header -->
-        <header class="h-16 flex items-center justify-between px-6 lg:px-8 border-b border-slate-200 dark:border-slate-700/50 flex-shrink-0" style="background: var(--bg-card);">
+        <header class="h-16 flex items-center justify-between px-6 lg:px-8 flex-shrink-0 app-header">
             <div class="flex items-center gap-4">
-                <button onclick="toggleMobileMenu()" class="lg:hidden text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">
+                <button onclick="toggleMobileMenu()" class="lg:hidden" style="color: var(--text-muted);">
                     <i class="fa-solid fa-bars text-xl"></i>
                 </button>
-                <h2 id="page-title" class="font-display font-bold text-xl text-slate-900 dark:text-white">Dashboard</h2>
+                <h2 id="page-title" class="font-display font-bold text-xl" style="color: var(--text-primary);">Dashboard</h2>
             </div>
             <div class="flex items-center gap-4">
-                <button class="relative w-10 h-10 rounded-xl flex items-center justify-center text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors hover:bg-slate-100 dark:hover:bg-slate-700/50">
+                <button class="relative w-10 h-10 rounded-xl flex items-center justify-center transition-colors hover:bg-slate-100 dark:hover:bg-slate-700/50" style="color: var(--text-muted);">
                     <i class="fa-regular fa-bell text-lg"></i>
                     <span class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full"></span>
                 </button>
-                <div class="flex items-center gap-3 pl-4 border-l border-slate-200 dark:border-slate-700/50">
+                <div class="flex items-center gap-3 pl-4" style="border-left: 1px solid var(--border-color);">
                     <div class="text-right hidden sm:block">
-                        <p class="text-sm font-semibold text-slate-900 dark:text-white leading-tight">Alex Morgan</p>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">Premium</p>
+                        <p class="text-sm font-semibold leading-tight" style="color: var(--text-primary);">Alex Morgan</p>
+                        <p class="text-xs" style="color: var(--text-muted);">Premium</p>
                     </div>
-                    <img src="https://ui-avatars.com/api/?name=Alex+Morgan&background=0ea5e9&color=fff&size=128" alt="Profile" class="w-9 h-9 rounded-xl border-2 border-slate-100 dark:border-slate-600">
+                    <img src="https://ui-avatars.com/api/?name=Alex+Morgan&background=0ea5e9&color=fff&size=128" alt="Profile" class="w-9 h-9 rounded-xl border-2" style="border-color: var(--border-color);">
                 </div>
             </div>
         </header>
@@ -224,53 +543,53 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
                     <div class="card rounded-2xl p-6">
                         <div class="flex justify-between items-start mb-4">
                             <div>
-                                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Balance</p>
-                                <h3 class="text-2xl font-display font-bold text-slate-900 dark:text-white mt-1" id="dash-balance">$0.00</h3>
+                                <p class="text-xs font-semibold uppercase tracking-wider" style="color: var(--text-muted);">Total Balance</p>
+                                <h3 class="text-2xl font-display font-bold mt-1" style="color: var(--text-primary);" id="dash-balance">$0.00</h3>
                             </div>
-                            <div class="w-10 h-10 rounded-xl bg-primary-50 dark:bg-primary-900/20 flex items-center justify-center text-primary-500"><i class="fa-solid fa-wallet"></i></div>
+                            <div class="stat-icon primary"><i class="fa-solid fa-wallet"></i></div>
                         </div>
                         <div class="flex items-center gap-2 text-sm">
                             <span class="badge badge-success flex items-center gap-1"><i class="fa-solid fa-arrow-trend-up text-xs"></i> +2.5%</span>
-                            <span class="text-slate-400">vs last month</span>
+                            <span style="color: var(--text-muted);">vs last month</span>
                         </div>
                     </div>
                     <div class="card rounded-2xl p-6">
                         <div class="flex justify-between items-start mb-4">
                             <div>
-                                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Income</p>
-                                <h3 class="text-2xl font-display font-bold text-slate-900 dark:text-white mt-1" id="dash-income">$0.00</h3>
+                                <p class="text-xs font-semibold uppercase tracking-wider" style="color: var(--text-muted);">Income</p>
+                                <h3 class="text-2xl font-display font-bold mt-1" style="color: var(--text-primary);" id="dash-income">$0.00</h3>
                             </div>
-                            <div class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 flex items-center justify-center text-emerald-500"><i class="fa-solid fa-arrow-down"></i></div>
+                            <div class="stat-icon success"><i class="fa-solid fa-arrow-down"></i></div>
                         </div>
                         <div class="flex items-center gap-2 text-sm">
                             <span class="badge badge-success flex items-center gap-1"><i class="fa-solid fa-arrow-trend-up text-xs"></i> +12%</span>
-                            <span class="text-slate-400">vs last month</span>
+                            <span style="color: var(--text-muted);">vs last month</span>
                         </div>
                     </div>
                     <div class="card rounded-2xl p-6">
                         <div class="flex justify-between items-start mb-4">
                             <div>
-                                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Expenses</p>
-                                <h3 class="text-2xl font-display font-bold text-slate-900 dark:text-white mt-1" id="dash-expense">$0.00</h3>
+                                <p class="text-xs font-semibold uppercase tracking-wider" style="color: var(--text-muted);">Expenses</p>
+                                <h3 class="text-2xl font-display font-bold mt-1" style="color: var(--text-primary);" id="dash-expense">$0.00</h3>
                             </div>
-                            <div class="w-10 h-10 rounded-xl bg-rose-50 dark:bg-rose-900/20 flex items-center justify-center text-rose-500"><i class="fa-solid fa-arrow-up"></i></div>
+                            <div class="stat-icon danger"><i class="fa-solid fa-arrow-up"></i></div>
                         </div>
                         <div class="flex items-center gap-2 text-sm">
                             <span class="badge badge-danger flex items-center gap-1"><i class="fa-solid fa-arrow-trend-up text-xs"></i> +4.2%</span>
-                            <span class="text-slate-400">vs last month</span>
+                            <span style="color: var(--text-muted);">vs last month</span>
                         </div>
                     </div>
                     <div class="card rounded-2xl p-6">
                         <div class="flex justify-between items-start mb-4">
                             <div>
-                                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Savings</p>
-                                <h3 class="text-2xl font-display font-bold text-slate-900 dark:text-white mt-1" id="dash-savings">$0.00</h3>
+                                <p class="text-xs font-semibold uppercase tracking-wider" style="color: var(--text-muted);">Savings</p>
+                                <h3 class="text-2xl font-display font-bold mt-1" style="color: var(--text-primary);" id="dash-savings">$0.00</h3>
                             </div>
-                            <div class="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center text-amber-500"><i class="fa-solid fa-piggy-bank"></i></div>
+                            <div class="stat-icon warning"><i class="fa-solid fa-piggy-bank"></i></div>
                         </div>
                         <div class="flex items-center gap-2 text-sm">
                             <span class="badge badge-success flex items-center gap-1"><i class="fa-solid fa-arrow-trend-up text-xs"></i> +8.1%</span>
-                            <span class="text-slate-400">vs last month</span>
+                            <span style="color: var(--text-muted);">vs last month</span>
                         </div>
                     </div>
                 </div>
@@ -279,17 +598,20 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
                     <div class="lg:col-span-2 card rounded-2xl p-6">
                         <div class="flex justify-between items-center mb-6">
                             <div>
-                                <h3 class="font-display font-bold text-lg text-slate-900 dark:text-white">Cash Flow</h3>
-                                <p class="text-sm text-slate-500 dark:text-slate-400">Income vs Expenses</p>
+                                <h3 class="font-display font-bold text-lg" style="color: var(--text-primary);">Cash Flow</h3>
+                                <p class="text-sm" style="color: var(--text-muted);">Income vs Expenses</p>
                             </div>
-                            <select class="input-field text-sm rounded-lg px-3 py-2 text-xs"><option>Last 6 Months</option><option>Last Year</option></select>
+                            <select class="input-field text-sm rounded-lg px-3 py-2 text-xs">
+                                <option>Last 6 Months</option>
+                                <option>Last Year</option>
+                            </select>
                         </div>
                         <div class="relative h-72"><canvas id="mainChart"></canvas></div>
                     </div>
                     <div class="card rounded-2xl p-6">
                         <div class="mb-6">
-                            <h3 class="font-display font-bold text-lg text-slate-900 dark:text-white">Expenses</h3>
-                            <p class="text-sm text-slate-500 dark:text-slate-400">By Category</p>
+                            <h3 class="font-display font-bold text-lg" style="color: var(--text-primary);">Expenses</h3>
+                            <p class="text-sm" style="color: var(--text-muted);">By Category</p>
                         </div>
                         <div class="relative h-56"><canvas id="doughnutChart"></canvas></div>
                         <div id="expense-legend" class="mt-4 space-y-2"></div>
@@ -297,40 +619,105 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
                 </div>
 
                 <div class="card rounded-2xl overflow-hidden">
-                    <div class="p-6 border-b border-slate-100 dark:border-slate-700/50 flex justify-between items-center">
+                    <div class="p-6 flex justify-between items-center" style="border-bottom: 1px solid var(--border-color);">
                         <div>
-                            <h3 class="font-display font-bold text-lg text-slate-900 dark:text-white">Recent Activity</h3>
-                            <p class="text-sm text-slate-500 dark:text-slate-400">Latest transactions</p>
+                            <h3 class="font-display font-bold text-lg" style="color: var(--text-primary);">Recent Activity</h3>
+                            <p class="text-sm" style="color: var(--text-muted);">Latest transactions</p>
                         </div>
                         <button onclick="navigateTo('transactions')" class="text-sm font-semibold text-primary-600 hover:text-primary-700 transition-colors">View All</button>
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="w-full"><tbody id="dash-recent-transactions" class="divide-y divide-slate-100 dark:divide-slate-700/50"></tbody></table>
+                        <table class="w-full"><tbody id="dash-recent-transactions" style="border-color: var(--border-color);"></tbody></table>
                     </div>
                 </div>
             </div>
 
             <!-- TRANSACTIONS -->
             <div id="page-transactions" class="page-content hidden page-transition max-w-7xl mx-auto space-y-6">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                    <div class="relative w-full md:w-96">
-                        <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input type="text" id="trans-search" oninput="filterTransactions()" placeholder="Search transactions..." class="input-field w-full pl-12 pr-4 py-3.5 rounded-xl text-sm">
+                <!-- Filters & Actions Bar -->
+                <div class="card rounded-2xl p-5">
+                    <div class="flex flex-col lg:flex-row gap-4">
+                        <!-- Search -->
+                        <div class="relative flex-1">
+                            <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2" style="color: var(--text-muted);"></i>
+                            <input type="text" id="trans-search" oninput="filterTransactions()" placeholder="Search transactions..." class="input-field w-full pl-12 pr-4 py-3 rounded-xl text-sm">
+                        </div>
+                        <!-- Filter Dropdown -->
+                        <div class="relative">
+                            <select id="trans-filter-type" onchange="filterTransactions()" class="input-field px-4 py-3 rounded-xl text-sm cursor-pointer">
+                                <option value="all">All Types</option>
+                                <option value="income">Income Only</option>
+                                <option value="expense">Expense Only</option>
+                            </select>
+                        </div>
+                        <!-- Category Filter -->
+                        <div class="relative">
+                            <select id="trans-filter-category" onchange="filterTransactions()" class="input-field px-4 py-3 rounded-xl text-sm cursor-pointer">
+                                <option value="all">All Categories</option>
+                                <option>Food & Dining</option>
+                                <option>Shopping</option>
+                                <option>Transportation</option>
+                                <option>Bills & Utilities</option>
+                                <option>Entertainment</option>
+                                <option>Healthcare</option>
+                                <option>Education</option>
+                                <option>Salary</option>
+                                <option>Freelance</option>
+                                <option>Investments</option>
+                            </select>
+                        </div>
+                        <!-- Sort Dropdown -->
+                        <div class="relative">
+                            <select id="trans-sort" onchange="filterTransactions()" class="input-field px-4 py-3 rounded-xl text-sm cursor-pointer">
+                                <option value="date-desc">Date: Newest First</option>
+                                <option value="date-asc">Date: Oldest First</option>
+                                <option value="amount-desc">Amount: High to Low</option>
+                                <option value="amount-asc">Amount: Low to High</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="flex gap-3 w-full md:w-auto">
-                        <button onclick="exportData()" class="px-4 py-3.5 card rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary-600 transition-colors flex items-center gap-2">
-                            <i class="fa-solid fa-download"></i> Export
+                    <div class="flex flex-wrap gap-3 mt-4 pt-4" style="border-top: 1px solid var(--border-color);">
+                        <button onclick="openModal('import-modal')" class="btn-secondary px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-file-import"></i> Import
                         </button>
-                        <button onclick="openModal('add-transaction-modal')" class="btn-primary px-5 py-3.5 rounded-xl text-white font-semibold text-sm flex items-center gap-2">
+                        <button onclick="openExportMenu()" class="btn-secondary px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-file-export"></i> Export
+                        </button>
+                        <button onclick="backupData()" class="btn-secondary px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-cloud-arrow-down"></i> Backup
+                        </button>
+                        <button onclick="openModal('restore-modal')" class="btn-secondary px-4 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-rotate-left"></i> Restore
+                        </button>
+                        <div class="flex-1"></div>
+                        <button onclick="openModal('add-transaction-modal')" class="btn-primary px-5 py-2.5 rounded-xl font-semibold text-sm flex items-center gap-2">
                             <i class="fa-solid fa-plus"></i> Add Transaction
                         </button>
                     </div>
                 </div>
+
+                <!-- Export Dropdown Menu -->
+                <div id="export-menu" class="hidden fixed z-50 dropdown-menu rounded-xl p-2 w-56">
+                    <button onclick="exportTransactions()" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-slate-100 dark:hover:bg-slate-700" style="color: var(--text-primary);">
+                        <i class="fa-solid fa-file-csv w-5 text-center" style="color: var(--text-muted);"></i>Export as CSV
+                    </button>
+                    <button onclick="exportJSON()" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-slate-100 dark:hover:bg-slate-700" style="color: var(--text-primary);">
+                        <i class="fa-solid fa-file-code w-5 text-center" style="color: var(--text-muted);"></i>Export as JSON
+                    </button>
+                    <button onclick="exportReports()" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-slate-100 dark:hover:bg-slate-700" style="color: var(--text-primary);">
+                        <i class="fa-solid fa-chart-pie w-5 text-center" style="color: var(--text-muted);"></i>Export Reports
+                    </button>
+                    <div class="my-1" style="border-top: 1px solid var(--border-color);"></div>
+                    <button onclick="exportFullBackup()" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-slate-100 dark:hover:bg-slate-700" style="color: var(--text-primary);">
+                        <i class="fa-solid fa-database w-5 text-center" style="color: var(--text-muted);"></i>Full Backup
+                    </button>
+                </div>
+
                 <div class="card rounded-2xl overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="w-full">
                             <thead>
-                                <tr class="text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider border-b border-slate-100 dark:border-slate-700/50">
+                                <tr class="text-left text-xs font-semibold uppercase tracking-wider" style="color: var(--text-muted); border-bottom: 1px solid var(--border-color);">
                                     <th class="px-6 py-4">Transaction</th>
                                     <th class="px-6 py-4">Category</th>
                                     <th class="px-6 py-4">Date</th>
@@ -339,15 +726,15 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
                                     <th class="px-6 py-4 text-center">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody id="all-transactions-body" class="divide-y divide-slate-100 dark:divide-slate-700/50"></tbody>
+                            <tbody id="all-transactions-body" style="border-color: var(--border-color);"></tbody>
                         </table>
                     </div>
-                    <div class="p-4 border-t border-slate-100 dark:border-slate-700/50 flex justify-between items-center">
-                        <span class="text-sm text-slate-500 dark:text-slate-400" id="trans-count">Showing all transactions</span>
+                    <div class="p-4 flex justify-between items-center" style="border-top: 1px solid var(--border-color);">
+                        <span class="text-sm" style="color: var(--text-muted);" id="trans-count">Showing all transactions</span>
                         <div class="flex gap-2">
-                            <button class="w-8 h-8 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"><i class="fa-solid fa-chevron-left text-xs"></i></button>
+                            <button class="w-8 h-8 rounded-lg flex items-center justify-center text-sm transition-colors" style="border: 1px solid var(--border-color); color: var(--text-muted);"><i class="fa-solid fa-chevron-left text-xs"></i></button>
                             <button class="w-8 h-8 rounded-lg gradient-bg text-white flex items-center justify-center text-xs font-semibold">1</button>
-                            <button class="w-8 h-8 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"><i class="fa-solid fa-chevron-right text-xs"></i></button>
+                            <button class="w-8 h-8 rounded-lg flex items-center justify-center text-sm transition-colors" style="border: 1px solid var(--border-color); color: var(--text-muted);"><i class="fa-solid fa-chevron-right text-xs"></i></button>
                         </div>
                     </div>
                 </div>
@@ -356,7 +743,7 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
             <!-- ACCOUNTS -->
             <div id="page-accounts" class="page-content hidden page-transition max-w-7xl mx-auto space-y-6">
                 <div class="max-w-2xl mx-auto">
-                    <div class="bank-card rounded-3xl p-8 text-white shadow-2xl shadow-slate-900/30 relative overflow-hidden">
+                    <div class="bank-card rounded-3xl p-8 text-white shadow-2xl relative overflow-hidden">
                         <div class="bank-card-shine"></div>
                         <div class="relative z-10">
                             <div class="flex justify-between items-start mb-8">
@@ -386,36 +773,36 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                     <div class="card rounded-2xl p-6">
                         <div class="flex items-center gap-4 mb-5">
-                            <div class="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-900/20 flex items-center justify-center text-emerald-500 text-lg"><i class="fa-solid fa-sack-dollar"></i></div>
+                            <div class="stat-icon success"><i class="fa-solid fa-sack-dollar"></i></div>
                             <div>
-                                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Savings Goal</p>
-                                <h4 class="text-lg font-display font-bold text-slate-900 dark:text-white">$50,000.00</h4>
+                                <p class="text-xs font-semibold uppercase tracking-wider" style="color: var(--text-muted);">Savings Goal</p>
+                                <h4 class="text-lg font-display font-bold" style="color: var(--text-primary);">$50,000.00</h4>
                             </div>
                         </div>
-                        <div class="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-2.5 mb-3"><div class="progress-bar h-2.5 rounded-full" style="width: 45%"></div></div>
-                        <div class="flex justify-between text-xs"><span class="text-slate-500 dark:text-slate-400">45% Achieved</span><span class="font-semibold text-emerald-500">$22,500</span></div>
+                        <div class="w-full rounded-full h-2.5 mb-3" style="background: var(--hover-bg);"><div class="progress-bar h-2.5 rounded-full" style="width: 45%"></div></div>
+                        <div class="flex justify-between text-xs"><span style="color: var(--text-muted);">45% Achieved</span><span class="font-semibold" style="color: var(--success);">$22,500</span></div>
                     </div>
                     <div class="card rounded-2xl p-6">
                         <div class="flex items-center gap-4 mb-5">
-                            <div class="w-12 h-12 rounded-2xl bg-primary-50 dark:bg-primary-900/20 flex items-center justify-center text-primary-500 text-lg"><i class="fa-solid fa-money-bill-transfer"></i></div>
+                            <div class="stat-icon primary"><i class="fa-solid fa-money-bill-transfer"></i></div>
                             <div>
-                                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Monthly Inflow</p>
-                                <h4 class="text-lg font-display font-bold text-slate-900 dark:text-white" id="account-inflow">$0.00</h4>
+                                <p class="text-xs font-semibold uppercase tracking-wider" style="color: var(--text-muted);">Monthly Inflow</p>
+                                <h4 class="text-lg font-display font-bold" style="color: var(--text-primary);" id="account-inflow">$0.00</h4>
                             </div>
                         </div>
-                        <div class="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-2.5 mb-3"><div class="progress-bar h-2.5 rounded-full" style="width: 75%"></div></div>
-                        <div class="flex justify-between text-xs"><span class="text-slate-500 dark:text-slate-400">75% of Budget</span><span class="font-semibold text-primary-500">On Track</span></div>
+                        <div class="w-full rounded-full h-2.5 mb-3" style="background: var(--hover-bg);"><div class="progress-bar h-2.5 rounded-full" style="width: 75%"></div></div>
+                        <div class="flex justify-between text-xs"><span style="color: var(--text-muted);">75% of Budget</span><span class="font-semibold" style="color: var(--accent);">On Track</span></div>
                     </div>
                     <div class="card rounded-2xl p-6">
                         <div class="flex items-center gap-4 mb-5">
-                            <div class="w-12 h-12 rounded-2xl bg-rose-50 dark:bg-rose-900/20 flex items-center justify-center text-rose-500 text-lg"><i class="fa-solid fa-credit-card"></i></div>
+                            <div class="stat-icon danger"><i class="fa-solid fa-credit-card"></i></div>
                             <div>
-                                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Credit Used</p>
-                                <h4 class="text-lg font-display font-bold text-slate-900 dark:text-white">$1,200.00</h4>
+                                <p class="text-xs font-semibold uppercase tracking-wider" style="color: var(--text-muted);">Credit Used</p>
+                                <h4 class="text-lg font-display font-bold" style="color: var(--text-primary);">$1,200.00</h4>
                             </div>
                         </div>
-                        <div class="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-2.5 mb-3"><div class="bg-rose-500 h-2.5 rounded-full" style="width: 20%"></div></div>
-                        <div class="flex justify-between text-xs"><span class="text-slate-500 dark:text-slate-400">20% of Limit</span><span class="font-semibold text-emerald-500">Healthy</span></div>
+                        <div class="w-full rounded-full h-2.5 mb-3" style="background: var(--hover-bg);"><div class="bg-rose-500 h-2.5 rounded-full" style="width: 20%"></div></div>
+                        <div class="flex justify-between text-xs"><span style="color: var(--text-muted);">20% of Limit</span><span class="font-semibold" style="color: var(--success);">Healthy</span></div>
                     </div>
                 </div>
             </div>
@@ -424,10 +811,10 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
             <div id="page-budgets" class="page-content hidden page-transition max-w-7xl mx-auto space-y-6">
                 <div class="flex justify-between items-center">
                     <div>
-                        <h3 class="font-display font-bold text-xl text-slate-900 dark:text-white">Budget Planner</h3>
-                        <p class="text-sm text-slate-500 dark:text-slate-400">Track your spending limits</p>
+                        <h3 class="font-display font-bold text-xl" style="color: var(--text-primary);">Budget Planner</h3>
+                        <p class="text-sm" style="color: var(--text-muted);">Track your spending limits</p>
                     </div>
-                    <button onclick="openModal('add-budget-modal')" class="btn-primary px-5 py-3.5 rounded-xl text-white font-semibold text-sm flex items-center gap-2">
+                    <button onclick="openModal('add-budget-modal')" class="btn-primary px-5 py-3.5 rounded-xl font-semibold text-sm flex items-center gap-2">
                         <i class="fa-solid fa-plus"></i> Create Budget
                     </button>
                 </div>
@@ -439,8 +826,8 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
                 <div class="card rounded-2xl p-6">
                     <div class="flex justify-between items-center mb-6">
                         <div>
-                            <h3 class="font-display font-bold text-lg text-slate-900 dark:text-white">Annual Overview</h3>
-                            <p class="text-sm text-slate-500 dark:text-slate-400">Monthly spending analysis</p>
+                            <h3 class="font-display font-bold text-lg" style="color: var(--text-primary);">Annual Overview</h3>
+                            <p class="text-sm" style="color: var(--text-muted);">Monthly spending analysis</p>
                         </div>
                         <div class="flex gap-2">
                             <button class="tab-btn active">Expenses</button>
@@ -451,11 +838,11 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
                     <div class="card rounded-2xl p-6">
-                        <h3 class="font-display font-bold text-lg text-slate-900 dark:text-white mb-4">Income Sources</h3>
+                        <h3 class="font-display font-bold text-lg mb-4" style="color: var(--text-primary);">Income Sources</h3>
                         <div class="relative h-72"><canvas id="incomeDoughnut"></canvas></div>
                     </div>
                     <div class="card rounded-2xl p-6">
-                        <h3 class="font-display font-bold text-lg text-slate-900 dark:text-white mb-4">Expense Breakdown</h3>
+                        <h3 class="font-display font-bold text-lg mb-4" style="color: var(--text-primary);">Expense Breakdown</h3>
                         <div class="relative h-72"><canvas id="expenseDoughnut"></canvas></div>
                     </div>
                 </div>
@@ -464,79 +851,126 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
     </main>
 
     <!-- Mobile Bottom Nav -->
-    <nav class="lg:hidden fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-700/50 flex justify-around p-2 z-40 pb-safe" style="background: var(--bg-card);">
-        <button onclick="navigateTo('dashboard')" class="flex flex-col items-center gap-1 py-2 px-3 rounded-xl text-slate-400 hover:text-primary-500 transition-colors" data-mobile-page="dashboard">
+    <nav class="lg:hidden fixed bottom-0 left-0 right-0 flex justify-around p-2 z-40 pb-safe mobile-nav">
+        <button onclick="navigateTo('dashboard')" class="flex flex-col items-center gap-1 py-2 px-3 rounded-xl transition-colors" style="color: var(--text-muted);" data-mobile-page="dashboard">
             <i class="fa-solid fa-chart-pie text-lg"></i><span class="text-[10px] font-medium">Home</span>
         </button>
-        <button onclick="navigateTo('transactions')" class="flex flex-col items-center gap-1 py-2 px-3 rounded-xl text-slate-400 hover:text-primary-500 transition-colors" data-mobile-page="transactions">
+        <button onclick="navigateTo('transactions')" class="flex flex-col items-center gap-1 py-2 px-3 rounded-xl transition-colors" style="color: var(--text-muted);" data-mobile-page="transactions">
             <i class="fa-solid fa-arrow-right-arrow-left text-lg"></i><span class="text-[10px] font-medium">Trans</span>
         </button>
-        <button onclick="navigateTo('accounts')" class="flex flex-col items-center gap-1 py-2 px-3 rounded-xl text-slate-400 hover:text-primary-500 transition-colors" data-mobile-page="accounts">
+        <button onclick="navigateTo('accounts')" class="flex flex-col items-center gap-1 py-2 px-3 rounded-xl transition-colors" style="color: var(--text-muted);" data-mobile-page="accounts">
             <i class="fa-solid fa-wallet text-lg"></i><span class="text-[10px] font-medium">Account</span>
         </button>
-        <button onclick="navigateTo('budgets')" class="flex flex-col items-center gap-1 py-2 px-3 rounded-xl text-slate-400 hover:text-primary-500 transition-colors" data-mobile-page="budgets">
+        <button onclick="navigateTo('budgets')" class="flex flex-col items-center gap-1 py-2 px-3 rounded-xl transition-colors" style="color: var(--text-muted);" data-mobile-page="budgets">
             <i class="fa-solid fa-bullseye text-lg"></i><span class="text-[10px] font-medium">Budget</span>
         </button>
-        <button onclick="navigateTo('reports')" class="flex flex-col items-center gap-1 py-2 px-3 rounded-xl text-slate-400 hover:text-primary-500 transition-colors" data-mobile-page="reports">
+        <button onclick="navigateTo('reports')" class="flex flex-col items-center gap-1 py-2 px-3 rounded-xl transition-colors" style="color: var(--text-muted);" data-mobile-page="reports">
             <i class="fa-solid fa-file-invoice-dollar text-lg"></i><span class="text-[10px] font-medium">Reports</span>
         </button>
     </nav>
 </div>
-<!-- MODALS -->
+
+<!-- ADD TRANSACTION MODAL -->
 <div id="add-transaction-modal" class="modal-overlay fixed inset-0 bg-black/40 z-50 hidden flex items-center justify-center p-4">
     <div class="card w-full max-w-md rounded-2xl shadow-2xl p-6 transform scale-95 opacity-0 transition-all duration-300" id="transaction-modal-content">
         <div class="flex justify-between items-center mb-6">
-            <div><h3 class="font-display font-bold text-xl text-slate-900 dark:text-white">Add Transaction</h3><p class="text-sm text-slate-500 dark:text-slate-400">Record a new transaction</p></div>
-            <button onclick="closeModal('add-transaction-modal')" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"><i class="fa-solid fa-xmark"></i></button>
+            <div><h3 class="font-display font-bold text-xl" style="color: var(--text-primary);">Add Transaction</h3><p class="text-sm" style="color: var(--text-muted);">Record a new transaction</p></div>
+            <button onclick="closeModal('add-transaction-modal')" class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:bg-slate-100 dark:hover:bg-slate-700" style="color: var(--text-muted);"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <form id="add-transaction-form" class="space-y-4">
-            <div><label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Description</label><input type="text" id="t-desc" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="e.g., Grocery shopping" required></div>
+            <div><label class="block text-sm font-semibold mb-2" style="color: var(--text-secondary);">Description</label><input type="text" id="t-desc" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="e.g., Grocery shopping" required></div>
             <div class="grid grid-cols-2 gap-4">
-                <div><label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Amount</label><input type="number" id="t-amount" step="0.01" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="0.00" required></div>
-                <div><label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Type</label><select id="t-type" class="input-field w-full px-4 py-3 rounded-xl text-sm"><option value="expense">Expense</option><option value="income">Income</option></select></div>
+                <div><label class="block text-sm font-semibold mb-2" style="color: var(--text-secondary);">Amount</label><input type="number" id="t-amount" step="0.01" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="0.00" required></div>
+                <div><label class="block text-sm font-semibold mb-2" style="color: var(--text-secondary);">Type</label><select id="t-type" class="input-field w-full px-4 py-3 rounded-xl text-sm"><option value="expense">Expense</option><option value="income">Income</option></select></div>
             </div>
-            <div><label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Category</label><select id="t-category" class="input-field w-full px-4 py-3 rounded-xl text-sm"><option>Food & Dining</option><option>Shopping</option><option>Transportation</option><option>Bills & Utilities</option><option>Entertainment</option><option>Healthcare</option><option>Education</option><option>Salary</option><option>Freelance</option><option>Investments</option></select></div>
-            <div><label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Date</label><input type="date" id="t-date" class="input-field w-full px-4 py-3 rounded-xl text-sm" required></div>
-            <button type="submit" class="btn-primary w-full py-3.5 rounded-xl text-white font-semibold text-sm mt-2">Save Transaction</button>
+            <div><label class="block text-sm font-semibold mb-2" style="color: var(--text-secondary);">Category</label><select id="t-category" class="input-field w-full px-4 py-3 rounded-xl text-sm"><option>Food & Dining</option><option>Shopping</option><option>Transportation</option><option>Bills & Utilities</option><option>Entertainment</option><option>Healthcare</option><option>Education</option><option>Salary</option><option>Freelance</option><option>Investments</option></select></div>
+            <div><label class="block text-sm font-semibold mb-2" style="color: var(--text-secondary);">Date</label><input type="date" id="t-date" class="input-field w-full px-4 py-3 rounded-xl text-sm" required></div>
+            <button type="submit" class="btn-primary w-full py-3.5 rounded-xl font-semibold text-sm mt-2">Save Transaction</button>
         </form>
     </div>
 </div>
 
+<!-- ADD BUDGET MODAL -->
 <div id="add-budget-modal" class="modal-overlay fixed inset-0 bg-black/40 z-50 hidden flex items-center justify-center p-4">
     <div class="card w-full max-w-md rounded-2xl shadow-2xl p-6 transform scale-95 opacity-0 transition-all duration-300" id="budget-modal-content">
         <div class="flex justify-between items-center mb-6">
-            <div><h3 class="font-display font-bold text-xl text-slate-900 dark:text-white">Create Budget</h3><p class="text-sm text-slate-500 dark:text-slate-400">Set a spending limit</p></div>
-            <button onclick="closeModal('add-budget-modal')" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"><i class="fa-solid fa-xmark"></i></button>
+            <div><h3 class="font-display font-bold text-xl" style="color: var(--text-primary);">Create Budget</h3><p class="text-sm" style="color: var(--text-muted);">Set a spending limit</p></div>
+            <button onclick="closeModal('add-budget-modal')" class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:bg-slate-100 dark:hover:bg-slate-700" style="color: var(--text-muted);"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <form id="add-budget-form" class="space-y-4">
-            <div><label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Budget Name</label><input type="text" id="b-name" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="e.g., Monthly Groceries" required></div>
-            <div><label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Category</label><select id="b-category" class="input-field w-full px-4 py-3 rounded-xl text-sm"><option>Food & Dining</option><option>Shopping</option><option>Transportation</option><option>Bills & Utilities</option><option>Entertainment</option><option>Healthcare</option><option>Education</option><option>Other</option></select></div>
-            <div><label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Monthly Limit ($)</label><input type="number" id="b-limit" step="0.01" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="0.00" required></div>
-            <button type="submit" class="btn-primary w-full py-3.5 rounded-xl text-white font-semibold text-sm mt-2">Create Budget</button>
+            <div><label class="block text-sm font-semibold mb-2" style="color: var(--text-secondary);">Budget Name</label><input type="text" id="b-name" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="e.g., Monthly Groceries" required></div>
+            <div><label class="block text-sm font-semibold mb-2" style="color: var(--text-secondary);">Category</label><select id="b-category" class="input-field w-full px-4 py-3 rounded-xl text-sm"><option>Food & Dining</option><option>Shopping</option><option>Transportation</option><option>Bills & Utilities</option><option>Entertainment</option><option>Healthcare</option><option>Education</option><option>Other</option></select></div>
+            <div><label class="block text-sm font-semibold mb-2" style="color: var(--text-secondary);">Monthly Limit ($)</label><input type="number" id="b-limit" step="0.01" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="0.00" required></div>
+            <button type="submit" class="btn-primary w-full py-3.5 rounded-xl font-semibold text-sm mt-2">Create Budget</button>
         </form>
     </div>
 </div>
 
+<!-- EDIT TRANSACTION MODAL -->
 <div id="edit-transaction-modal" class="modal-overlay fixed inset-0 bg-black/40 z-50 hidden flex items-center justify-center p-4">
     <div class="card w-full max-w-md rounded-2xl shadow-2xl p-6 transform scale-95 opacity-0 transition-all duration-300" id="edit-transaction-modal-content">
         <div class="flex justify-between items-center mb-6">
-            <div><h3 class="font-display font-bold text-xl text-slate-900 dark:text-white">Edit Transaction</h3><p class="text-sm text-slate-500 dark:text-slate-400">Update transaction details</p></div>
-            <button onclick="closeModal('edit-transaction-modal')" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"><i class="fa-solid fa-xmark"></i></button>
+            <div><h3 class="font-display font-bold text-xl" style="color: var(--text-primary);">Edit Transaction</h3><p class="text-sm" style="color: var(--text-muted);">Update transaction details</p></div>
+            <button onclick="closeModal('edit-transaction-modal')" class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:bg-slate-100 dark:hover:bg-slate-700" style="color: var(--text-muted);"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <form id="edit-transaction-form" class="space-y-4">
             <input type="hidden" id="edit-t-id">
-            <div><label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Description</label><input type="text" id="edit-t-desc" class="input-field w-full px-4 py-3 rounded-xl text-sm" required></div>
+            <div><label class="block text-sm font-semibold mb-2" style="color: var(--text-secondary);">Description</label><input type="text" id="edit-t-desc" class="input-field w-full px-4 py-3 rounded-xl text-sm" required></div>
             <div class="grid grid-cols-2 gap-4">
-                <div><label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Amount</label><input type="number" id="edit-t-amount" step="0.01" class="input-field w-full px-4 py-3 rounded-xl text-sm" required></div>
-                <div><label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Type</label><select id="edit-t-type" class="input-field w-full px-4 py-3 rounded-xl text-sm"><option value="expense">Expense</option><option value="income">Income</option></select></div>
+                <div><label class="block text-sm font-semibold mb-2" style="color: var(--text-secondary);">Amount</label><input type="number" id="edit-t-amount" step="0.01" class="input-field w-full px-4 py-3 rounded-xl text-sm" required></div>
+                <div><label class="block text-sm font-semibold mb-2" style="color: var(--text-secondary);">Type</label><select id="edit-t-type" class="input-field w-full px-4 py-3 rounded-xl text-sm"><option value="expense">Expense</option><option value="income">Income</option></select></div>
             </div>
-            <div><label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Category</label><select id="edit-t-category" class="input-field w-full px-4 py-3 rounded-xl text-sm"><option>Food & Dining</option><option>Shopping</option><option>Transportation</option><option>Bills & Utilities</option><option>Entertainment</option><option>Healthcare</option><option>Education</option><option>Salary</option><option>Freelance</option><option>Investments</option></select></div>
-            <div><label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Date</label><input type="date" id="edit-t-date" class="input-field w-full px-4 py-3 rounded-xl text-sm" required></div>
+            <div><label class="block text-sm font-semibold mb-2" style="color: var(--text-secondary);">Category</label><select id="edit-t-category" class="input-field w-full px-4 py-3 rounded-xl text-sm"><option>Food & Dining</option><option>Shopping</option><option>Transportation</option><option>Bills & Utilities</option><option>Entertainment</option><option>Healthcare</option><option>Education</option><option>Salary</option><option>Freelance</option><option>Investments</option></select></div>
+            <div><label class="block text-sm font-semibold mb-2" style="color: var(--text-secondary);">Date</label><input type="date" id="edit-t-date" class="input-field w-full px-4 py-3 rounded-xl text-sm" required></div>
             <div class="flex gap-3">
-                <button type="button" onclick="closeModal('edit-transaction-modal')" class="flex-1 py-3.5 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">Cancel</button>
-                <button type="submit" class="flex-1 btn-primary py-3.5 rounded-xl text-white font-semibold text-sm">Update</button>
+                <button type="button" onclick="closeModal('edit-transaction-modal')" class="flex-1 py-3.5 rounded-xl text-sm font-semibold transition-colors hover:bg-slate-100 dark:hover:bg-slate-700" style="color: var(--text-secondary); border: 1px solid var(--border-color);">Cancel</button>
+                <button type="submit" class="flex-1 btn-primary py-3.5 rounded-xl font-semibold text-sm">Update</button>
             </div>
         </form>
+    </div>
+</div>
+
+<!-- IMPORT MODAL -->
+<div id="import-modal" class="modal-overlay fixed inset-0 bg-black/40 z-50 hidden flex items-center justify-center p-4">
+    <div class="card w-full max-w-md rounded-2xl shadow-2xl p-6 transform scale-95 opacity-0 transition-all duration-300" id="import-modal-content">
+        <div class="flex justify-between items-center mb-6">
+            <div><h3 class="font-display font-bold text-xl" style="color: var(--text-primary);">Import Data</h3><p class="text-sm" style="color: var(--text-muted);">Upload your financial records</p></div>
+            <button onclick="closeModal('import-modal')" class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:bg-slate-100 dark:hover:bg-slate-700" style="color: var(--text-muted);"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="space-y-4">
+            <div class="border-2 border-dashed rounded-2xl p-8 text-center transition-colors cursor-pointer hover:border-primary-400" style="border-color: var(--border-color);" onclick="document.getElementById('import-file').click()" id="import-dropzone">
+                <div class="w-14 h-14 rounded-2xl bg-primary-50 dark:bg-primary-900/20 flex items-center justify-center mx-auto mb-4">
+                    <i class="fa-solid fa-cloud-arrow-up text-2xl text-primary-500"></i>
+                </div>
+                <p class="font-semibold text-sm mb-1" style="color: var(--text-primary);">Click to upload or drag and drop</p>
+                <p class="text-xs" style="color: var(--text-muted);">Supports JSON and CSV files</p>
+                <input type="file" id="import-file" class="hidden" accept=".json,.csv" onchange="handleImport(this)">
+            </div>
+            <div class="flex gap-3">
+                <button onclick="closeModal('import-modal')" class="flex-1 py-3 rounded-xl text-sm font-semibold transition-colors hover:bg-slate-100 dark:hover:bg-slate-700" style="color: var(--text-secondary); border: 1px solid var(--border-color);">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- RESTORE MODAL -->
+<div id="restore-modal" class="modal-overlay fixed inset-0 bg-black/40 z-50 hidden flex items-center justify-center p-4">
+    <div class="card w-full max-w-md rounded-2xl shadow-2xl p-6 transform scale-95 opacity-0 transition-all duration-300" id="restore-modal-content">
+        <div class="flex justify-between items-center mb-6">
+            <div><h3 class="font-display font-bold text-xl" style="color: var(--text-primary);">Restore Data</h3><p class="text-sm" style="color: var(--text-muted);">Restore from a backup file</p></div>
+            <button onclick="closeModal('restore-modal')" class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:bg-slate-100 dark:hover:bg-slate-700" style="color: var(--text-muted);"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="space-y-4">
+            <div class="border-2 border-dashed rounded-2xl p-8 text-center transition-colors cursor-pointer hover:border-primary-400" style="border-color: var(--border-color);" onclick="document.getElementById('restore-file').click()">
+                <div class="w-14 h-14 rounded-2xl bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center mx-auto mb-4">
+                    <i class="fa-solid fa-rotate-left text-2xl text-amber-500"></i>
+                </div>
+                <p class="font-semibold text-sm mb-1" style="color: var(--text-primary);">Select backup file</p>
+                <p class="text-xs" style="color: var(--text-muted);">Only .json backup files supported</p>
+                <input type="file" id="restore-file" class="hidden" accept=".json" onchange="handleRestore(this)">
+            </div>
+            <button onclick="closeModal('restore-modal')" class="w-full py-3 rounded-xl text-sm font-semibold transition-colors hover:bg-slate-100 dark:hover:bg-slate-700" style="color: var(--text-secondary); border: 1px solid var(--border-color);">Cancel</button>
+        </div>
     </div>
 </div>
 
@@ -544,26 +978,25 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
 <div id="toast" class="fixed bottom-24 lg:bottom-8 right-4 lg:right-8 z-50 transform translate-y-20 opacity-0 transition-all duration-300">
     <div class="card rounded-xl px-6 py-4 shadow-2xl flex items-center gap-3">
         <div id="toast-icon" class="w-8 h-8 rounded-lg flex items-center justify-center text-white text-sm"></div>
-        <div><p id="toast-message" class="text-sm font-semibold text-slate-900 dark:text-white"></p></div>
+        <div><p id="toast-message" class="text-sm font-semibold" style="color: var(--text-primary);"></p></div>
     </div>
 </div>
-
 <script>
 // ==================== DATA STORE ====================
 const defaultData = {
     transactions: [
-        { id: 1, desc: "Whole Foods Market", category: "Food & Dining", date: "2026-06-28", amount: -156.43, type: "expense", status: "Completed" },
+        { id: 1, desc: "Whole Foods Market", category: "Food & Dining", date: "2026-06-28", amount: -400, type: "expense", status: "Completed" },
         { id: 2, desc: "Monthly Salary", category: "Salary", date: "2026-06-01", amount: 5500.00, type: "income", status: "Completed" },
         { id: 3, desc: "Netflix Subscription", category: "Entertainment", date: "2026-06-25", amount: -15.99, type: "expense", status: "Completed" },
-        { id: 4, desc: "Shell Gas Station", category: "Transportation", date: "2026-06-24", amount: -52.00, type: "expense", status: "Completed" },
+        { id: 4, desc: "Shell Gas Station", category: "Transportation", date: "2026-06-24", amount: -250, type: "expense", status: "Completed" },
         { id: 5, desc: "Freelance Web Design", category: "Freelance", date: "2026-06-22", amount: 1200.00, type: "income", status: "Completed" },
-        { id: 6, desc: "Electric Bill", category: "Bills & Utilities", date: "2026-06-20", amount: -134.50, type: "expense", status: "Completed" },
+        { id: 6, desc: "Electric Bill", category: "Bills & Utilities", date: "2026-06-20", amount: -354.55, type: "expense", status: "Completed" },
         { id: 7, desc: "Nike Store", category: "Shopping", date: "2026-06-18", amount: -89.99, type: "expense", status: "Completed" },
         { id: 8, desc: "Doctor Visit", category: "Healthcare", date: "2026-06-15", amount: -150.00, type: "expense", status: "Completed" },
         { id: 9, desc: "Uber Ride", category: "Transportation", date: "2026-06-14", amount: -24.50, type: "expense", status: "Completed" },
         { id: 10, desc: "Stock Dividend", category: "Investments", date: "2026-06-10", amount: 320.00, type: "income", status: "Completed" },
         { id: 11, desc: "Spotify Premium", category: "Entertainment", date: "2026-06-08", amount: -9.99, type: "expense", status: "Completed" },
-        { id: 12, desc: "Gym Membership", category: "Healthcare", date: "2026-06-05", amount: -49.99, type: "expense", status: "Completed" },
+        { id: 12, desc: "Gym Membership", category: "Healthcare", date: "2026-06-05", amount: -149.99, type: "expense", status: "Completed" },
     ],
     budgets: [
         { id: 1, name: "Groceries", category: "Food & Dining", limit: 600, color: "from-emerald-400 to-emerald-600" },
@@ -572,7 +1005,7 @@ const defaultData = {
         { id: 4, name: "Shopping", category: "Shopping", limit: 400, color: "from-amber-400 to-amber-600" },
         { id: 5, name: "Utilities", category: "Bills & Utilities", limit: 250, color: "from-rose-400 to-rose-600" },
     ],
-    user: { name: "Alex", email: "alex@fintrack.com" },
+    user: { name: "Alex Morgan", email: "alex@fintrack.com" },
     settings: { darkMode: false }
 };
 
@@ -594,15 +1027,6 @@ function loadData() {
 
 function saveData() {
     localStorage.setItem('fintrack_data', JSON.stringify(appData));
-}
-
-function resetData() {
-    if (confirm('Reset all data to defaults?')) {
-        appData = JSON.parse(JSON.stringify(defaultData));
-        saveData();
-        showToast('Data reset successfully', 'success');
-        updateAllViews();
-    }
 }
 
 // ==================== CALCULATIONS ====================
@@ -640,6 +1064,9 @@ function getIncomeCategoryData() {
 let currentPage = 'login';
 
 function navigateTo(page) {
+    // Close export menu if open
+    document.getElementById('export-menu').classList.add('hidden');
+
     if (page === 'login') {
         document.getElementById('view-login').classList.remove('hidden');
         document.getElementById('app-container').classList.add('hidden');
@@ -665,6 +1092,7 @@ function navigateTo(page) {
     document.querySelectorAll('[data-mobile-page]').forEach(el => {
         el.classList.remove('text-primary-500');
         el.classList.add('text-slate-400');
+        el.style.color = '';
         if (el.dataset.mobilePage === page) {
             el.classList.add('text-primary-500');
             el.classList.remove('text-slate-400');
@@ -800,42 +1228,75 @@ function renderTransactionRow(t, showActions) {
     let actions = '';
     if (showActions) {
         actions = `<td class="px-6 py-4 text-center">
-            <button onclick="editTransaction(${t.id})" class="text-slate-400 hover:text-primary-500 transition-colors mr-3"><i class="fa-solid fa-pen-to-square"></i></button>
-            <button onclick="deleteTransaction(${t.id})" class="text-slate-400 hover:text-rose-500 transition-colors"><i class="fa-solid fa-trash"></i></button>
+            <button onclick="editTransaction(${t.id})" class="transition-colors mr-3" style="color: var(--text-muted);" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'"><i class="fa-solid fa-pen-to-square"></i></button>
+            <button onclick="deleteTransaction(${t.id})" class="transition-colors" style="color: var(--text-muted);" onmouseover="this.style.color='var(--danger)'" onmouseout="this.style.color='var(--text-muted)'"><i class="fa-solid fa-trash"></i></button>
         </td>`;
     } else {
         actions = `<td class="px-6 py-4 text-center"><span class="badge ${t.status === 'Completed' ? 'badge-success' : 'badge-warning'}">${t.status}</span></td>`;
     }
 
-    return `<tr class="transaction-row">
+    return `<tr class="transaction-row" style="border-bottom: 1px solid var(--border-color);">
         <td class="px-6 py-4">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl ${iconBg} flex items-center justify-center"><i class="fa-solid ${icon}"></i></div>
                 <div>
-                    <p class="font-semibold text-slate-900 dark:text-white text-sm">${t.desc}</p>
-                    <p class="text-xs text-slate-500 dark:text-slate-400">${t.category}</p>
+                    <p class="font-semibold text-sm" style="color: var(--text-primary);">${t.desc}</p>
+                    <p class="text-xs" style="color: var(--text-muted);">${t.category}</p>
                 </div>
             </div>
         </td>
-        <td class="px-6 py-4"><span class="text-xs font-medium px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">${t.category}</span></td>
-        <td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">${new Date(t.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</td>
+        <td class="px-6 py-4"><span class="category-tag">${t.category}</span></td>
+        <td class="px-6 py-4 text-sm" style="color: var(--text-muted);">${new Date(t.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</td>
         <td class="px-6 py-4 text-right font-bold ${amountClass}">${sign}${formatMoney(t.amount)}</td>
         ${actions}
     </tr>`;
 }
 
-function renderTransactions() {
-    const recentBody = document.getElementById('dash-recent-transactions');
-    const allBody = document.getElementById('all-transactions-body');
+function getFilteredTransactions() {
     const searchTerm = document.getElementById('trans-search')?.value?.toLowerCase() || '';
+    const typeFilter = document.getElementById('trans-filter-type')?.value || 'all';
+    const categoryFilter = document.getElementById('trans-filter-category')?.value || 'all';
+    const sortValue = document.getElementById('trans-sort')?.value || 'date-desc';
 
-    let filtered = appData.transactions;
+    let filtered = [...appData.transactions];
+
+    // Search filter
     if (searchTerm) {
         filtered = filtered.filter(t => 
             t.desc.toLowerCase().includes(searchTerm) || 
             t.category.toLowerCase().includes(searchTerm)
         );
     }
+
+    // Type filter
+    if (typeFilter !== 'all') {
+        filtered = filtered.filter(t => t.type === typeFilter);
+    }
+
+    // Category filter
+    if (categoryFilter !== 'all') {
+        filtered = filtered.filter(t => t.category === categoryFilter);
+    }
+
+    // Sort
+    filtered.sort((a, b) => {
+        switch(sortValue) {
+            case 'date-desc': return new Date(b.date) - new Date(a.date);
+            case 'date-asc': return new Date(a.date) - new Date(b.date);
+            case 'amount-desc': return Math.abs(b.amount) - Math.abs(a.amount);
+            case 'amount-asc': return Math.abs(a.amount) - Math.abs(b.amount);
+            default: return 0;
+        }
+    });
+
+    return filtered;
+}
+
+function renderTransactions() {
+    const recentBody = document.getElementById('dash-recent-transactions');
+    const allBody = document.getElementById('all-transactions-body');
+
+    const filtered = getFilteredTransactions();
 
     if (recentBody) {
         recentBody.innerHTML = appData.transactions.slice(0, 5).map(t => renderTransactionRow(t, false)).join('');
@@ -860,7 +1321,7 @@ function renderBudgets() {
 
     container.innerHTML = appData.budgets.map(b => {
         const spent = getCategorySpending(b.category);
-        const percent = Math.min(100, Math.round((spent / b.limit) * 100));
+        const percent = b.limit > 0 ? Math.min(100, Math.round((spent / b.limit) * 100)) : 0;
         const isWarning = percent > 85;
         const isOver = spent > b.limit;
 
@@ -872,21 +1333,21 @@ function renderBudgets() {
                         <i class="fa-solid ${getCategoryIcon(b.category)}"></i>
                     </div>
                     <div>
-                        <h4 class="font-display font-bold text-slate-900 dark:text-white">${b.name}</h4>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">${b.category}</p>
+                        <h4 class="font-display font-bold" style="color: var(--text-primary);">${b.name}</h4>
+                        <p class="text-xs" style="color: var(--text-muted);">${b.category}</p>
                     </div>
                 </div>
                 <div class="text-right">
-                    <p class="text-sm font-bold text-slate-900 dark:text-white">${formatMoney(spent)}</p>
-                    <p class="text-xs text-slate-500 dark:text-slate-400">of ${formatMoney(b.limit)}</p>
+                    <p class="text-sm font-bold" style="color: var(--text-primary);">${formatMoney(spent)}</p>
+                    <p class="text-xs" style="color: var(--text-muted);">of ${formatMoney(b.limit)}</p>
                 </div>
             </div>
-            <div class="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-2.5 mb-3">
+            <div class="w-full rounded-full h-2.5 mb-3" style="background: var(--hover-bg);">
                 <div class="h-2.5 rounded-full transition-all duration-1000 ${isOver ? 'bg-rose-500' : 'bg-gradient-to-r ' + b.color}" style="width: ${Math.min(percent, 100)}%"></div>
             </div>
             <div class="flex justify-between items-center">
-                <span class="text-xs font-medium ${isWarning ? 'text-rose-500' : 'text-slate-500 dark:text-slate-400'}">${percent}% Used</span>
-                ${isOver ? '<span class="text-xs text-rose-500 font-bold"><i class="fa-solid fa-circle-exclamation mr-1"></i>Over Budget</span>' : isWarning ? '<span class="text-xs text-amber-500 font-bold"><i class="fa-solid fa-triangle-exclamation mr-1"></i>Near Limit</span>' : '<span class="text-xs text-emerald-500 font-medium">On Track</span>'}
+                <span class="text-xs font-medium ${isWarning ? 'text-rose-500' : ''}" style="${!isWarning ? 'color: var(--text-muted);' : ''}">${percent}% Used</span>
+                ${isOver ? '<span class="text-xs text-rose-500 font-bold"><i class="fa-solid fa-circle-exclamation mr-1"></i>Over Budget</span>' : isWarning ? '<span class="text-xs text-amber-500 font-bold"><i class="fa-solid fa-triangle-exclamation mr-1"></i>Near Limit</span>' : '<span class="text-xs font-medium" style="color: var(--success);">On Track</span>'}
             </div>
         </div>`;
     }).join('');
@@ -929,14 +1390,14 @@ function updateExpenseLegend() {
     const sorted = Object.entries(data).sort((a, b) => b[1] - a[1]).slice(0, 5);
 
     legend.innerHTML = sorted.map(([cat, amount]) => {
-        const pct = ((amount / total) * 100).toFixed(0);
+        const pct = total > 0 ? ((amount / total) * 100).toFixed(0) : 0;
         return `
         <div class="flex justify-between items-center text-sm">
             <div class="flex items-center gap-2">
                 <span class="w-3 h-3 rounded-full ${getCategoryColor(cat)}"></span>
-                <span class="text-slate-600 dark:text-slate-300">${cat}</span>
+                <span style="color: var(--text-secondary);">${cat}</span>
             </div>
-            <span class="font-semibold text-slate-900 dark:text-white">${pct}%</span>
+            <span class="font-semibold" style="color: var(--text-primary);">${pct}%</span>
         </div>`;
     }).join('');
 }
@@ -1034,16 +1495,196 @@ document.getElementById('edit-transaction-form').addEventListener('submit', func
     showToast('Transaction updated successfully', 'success');
 });
 
-function exportData() {
+// ==================== IMPORT / EXPORT ====================
+function openExportMenu() {
+    const menu = document.getElementById('export-menu');
+    menu.classList.toggle('hidden');
+    // Position near the button
+    const btn = event.target.closest('button');
+    if (btn && !menu.classList.contains('hidden')) {
+        const rect = btn.getBoundingClientRect();
+        menu.style.top = (rect.bottom + 8) + 'px';
+        menu.style.right = (window.innerWidth - rect.right) + 'px';
+    }
+}
+
+// Close export menu when clicking outside
+document.addEventListener('click', function(e) {
+    const menu = document.getElementById('export-menu');
+    const btn = e.target.closest('button');
+    if (!menu.classList.contains('hidden') && (!btn || !btn.innerHTML.includes('Export'))) {
+        menu.classList.add('hidden');
+    }
+});
+
+function exportTransactions() {
+    const headers = ['ID', 'Description', 'Category', 'Date', 'Amount', 'Type', 'Status'];
+    const rows = appData.transactions.map(t => [
+        t.id, t.desc, t.category, t.date, t.amount, t.type, t.status
+    ]);
+
+    let csv = headers.join(',') + '\n';
+    rows.forEach(row => {
+        csv += row.map(cell => `"${cell}"`).join(',') + '\n';
+    });
+
+    downloadFile(csv, 'fintrack-transactions.csv', 'text/csv');
+    document.getElementById('export-menu').classList.add('hidden');
+    showToast('Transactions exported as CSV', 'success');
+}
+
+function exportJSON() {
     const dataStr = JSON.stringify(appData.transactions, null, 2);
-    const blob = new Blob([dataStr], { type: 'application/json' });
+    downloadFile(dataStr, 'fintrack-transactions.json', 'application/json');
+    document.getElementById('export-menu').classList.add('hidden');
+    showToast('Transactions exported as JSON', 'success');
+}
+
+function exportReports() {
+    const reportData = {
+        generatedAt: new Date().toISOString(),
+        summary: {
+            totalBalance: getBalance(),
+            totalIncome: getTotalIncome(),
+            totalExpense: getTotalExpense(),
+            totalSavings: getSavings()
+        },
+        categoryBreakdown: getCategoryData(),
+        incomeBreakdown: getIncomeCategoryData(),
+        transactions: appData.transactions
+    };
+    const dataStr = JSON.stringify(reportData, null, 2);
+    downloadFile(dataStr, 'fintrack-report.json', 'application/json');
+    document.getElementById('export-menu').classList.add('hidden');
+    showToast('Reports exported as JSON', 'success');
+}
+
+function exportFullBackup() {
+    const backup = {
+        version: '1.0',
+        exportedAt: new Date().toISOString(),
+        data: appData
+    };
+    const dataStr = JSON.stringify(backup, null, 2);
+    downloadFile(dataStr, `fintrack-backup-${new Date().toISOString().split('T')[0]}.json`, 'application/json');
+    document.getElementById('export-menu').classList.add('hidden');
+    showToast('Full backup downloaded', 'success');
+}
+
+function backupData() {
+    exportFullBackup();
+}
+
+function downloadFile(content, filename, mimeType) {
+    const blob = new Blob([content], { type: mimeType });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'fintrack-transactions.json';
+    a.download = filename;
+    document.body.appendChild(a);
     a.click();
+    document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    showToast('Data exported successfully', 'success');
+}
+
+function handleImport(input) {
+    const file = input.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const content = e.target.result;
+            let imported = [];
+
+            if (file.name.endsWith('.csv')) {
+                imported = parseCSV(content);
+            } else {
+                const parsed = JSON.parse(content);
+                imported = Array.isArray(parsed) ? parsed : (parsed.transactions || parsed.data?.transactions || []);
+            }
+
+            if (imported.length === 0) {
+                showToast('No valid transactions found in file', 'error');
+                return;
+            }
+
+            // Validate and normalize
+            const valid = imported.filter(t => t.desc && t.amount !== undefined && t.date).map(t => ({
+                id: Date.now() + Math.random(),
+                desc: String(t.desc),
+                category: String(t.category || 'Other'),
+                date: String(t.date),
+                amount: parseFloat(t.amount),
+                type: t.type || (parseFloat(t.amount) >= 0 ? 'income' : 'expense'),
+                status: t.status || 'Completed'
+            }));
+
+            appData.transactions = [...valid, ...appData.transactions];
+            saveData();
+            updateAllViews();
+            closeModal('import-modal');
+            showToast(`${valid.length} transactions imported`, 'success');
+        } catch (err) {
+            showToast('Failed to import file: ' + err.message, 'error');
+        }
+    };
+    reader.readAsText(file);
+    input.value = '';
+}
+
+function parseCSV(csvText) {
+    const lines = csvText.trim().split('\n');
+    if (lines.length < 2) return [];
+
+    const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+    const result = [];
+
+    for (let i = 1; i < lines.length; i++) {
+        const values = lines[i].split(',').map(v => v.trim().replace(/^"|"$/g, ''));
+        const obj = {};
+        headers.forEach((h, idx) => {
+            obj[h.toLowerCase()] = values[idx];
+        });
+        result.push(obj);
+    }
+    return result;
+}
+
+function handleRestore(input) {
+    const file = input.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const backup = JSON.parse(e.target.result);
+            const data = backup.data || backup;
+
+            if (!data.transactions || !data.budgets) {
+                showToast('Invalid backup file', 'error');
+                return;
+            }
+
+            if (!confirm('This will replace all current data. Continue?')) return;
+
+            appData = {
+                transactions: data.transactions,
+                budgets: data.budgets,
+                user: data.user || appData.user,
+                settings: data.settings || appData.settings
+            };
+
+            saveData();
+            updateAllViews();
+            closeModal('restore-modal');
+            showToast('Data restored successfully', 'success');
+        } catch (err) {
+            showToast('Failed to restore: ' + err.message, 'error');
+        }
+    };
+    reader.readAsText(file);
+    input.value = '';
 }
 
 // ==================== CHARTS ====================
