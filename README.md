@@ -4,7 +4,13 @@
 
 A modern, responsive, and feature-rich personal finance web application that helps users track income, expenses, budgets, and financial activities with real-time insights — all running entirely in the browser with zero backend dependencies.
 
-[![Live Demo](https://img.shields.io/badge/🔗_Live_Demo-Visit_Site-0ea5e9?style=for-the-badge)](https://mariazahid62.github.io/FinTrack-Pro/)
+## 🚀 Live Demo
+
+**🔗 [https://mariazahid62.github.io/FinTrack-Pro/](https://mariazahid62.github.io/FinTrack-Pro/)**
+
+> **Demo Credentials**
+> - Email: `alex@fintrack.com`
+> - Password: `password123`
 
 ---
 
@@ -53,12 +59,6 @@ A modern, responsive, and feature-rich personal finance web application that hel
 - **Account Stats** — Member since, total transactions, active budgets, last login
 - **Danger Zone** — Clear all data or reset to defaults with confirmation dialogs
 
-### 🌓 Dark Mode (Default)
-- **Dark-first Design** — Application loads in dark mode by default
-- **Toggle Switch** — Seamlessly switch between dark and light themes
-- **Persistent Theme** — Selected theme saved to LocalStorage
-- **Full UI Adaptation** — All components, charts, and modals adapt to the active theme
-
 ### 💾 Data Management
 - **LocalStorage Persistence** — All data saved locally in the browser
 - **Import Data** — Upload JSON or CSV files to bulk import transactions
@@ -76,16 +76,6 @@ A modern, responsive, and feature-rich personal finance web application that hel
 
 ---
 
-## 🚀 Live Demo
-
-**🔗 [https://mariazahid62.github.io/FinTrack-Pro/](https://mariazahid62.github.io/FinTrack-Pro/)**
-
-> **Demo Credentials**
-> - Email: `alex@fintrack.com`
-> - Password: `password123`
-
----
-
 ## 🛠️ Tech Stack
 
 | Technology | Purpose |
@@ -98,18 +88,6 @@ A modern, responsive, and feature-rich personal finance web application that hel
 | **Font Awesome 6** | Icon library for UI elements |
 | **Google Fonts** | Plus Jakarta Sans & Space Grotesk typography |
 | **LocalStorage API** | Client-side data persistence |
-
----
-
-## 📂 Project Structure
-
-```
-FinTrack-Pro/
-├── index.html          # Main application file (single-page architecture)
-├── README.md           # Project documentation
-```
-
-> **Note:** This is a single-file application. All HTML, CSS, and JavaScript are contained within `index.html` for simplicity and portability.
 
 ---
 
@@ -149,24 +127,6 @@ FinTrack-Pro/
    - Use a live server extension in VS Code
 
 4. **Start tracking your finances!** 💰
-
----
-
-## 💡 Usage Guide
-
-| Action | How To |
-|--------|--------|
-| **Add Transaction** | Click "Add Transaction" button → Fill form → Save |
-| **Edit Transaction** | Click pencil icon on any transaction row |
-| **Delete Transaction** | Click trash icon → Confirm deletion |
-| **Create Budget** | Go to Budgets → Click "Create Budget" → Set limit |
-| **Edit Profile** | Go to Profile → Click "Edit Profile" → Update info |
-| **Change Password** | Profile → Security → Click "Change" |
-| **Upload Avatar** | Profile → Click camera icon on avatar |
-| **Toggle Theme** | Sidebar → Click "Light Mode" toggle |
-| **Export Data** | Transactions → Export → Choose format |
-| **Import Data** | Transactions → Import → Select file |
-| **Backup Everything** | Transactions → Backup → Download JSON |
 
 ---
 
@@ -222,19 +182,13 @@ All data is stored in your browser's **LocalStorage** under these keys:
 
 ---
 
-## 🤝 Contributing
-
-Contributions are welcome! If you'd like to improve FinTrack Pro:
-
----
-
 ## 👩‍💻 Developer
 
 **Maria Zahid**  
 *For Zynvex Solutions*
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/maria-zahid-056a87327)
-[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:mariazahid404@gmail.com)
+- www.linkedin.com/in/maria-zahid-056a87327
+- mariazahid404@gmail.com
 
 ---
 
